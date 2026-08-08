@@ -1,9 +1,13 @@
 # themultiple.net
 
-Static support and privacy pages for apps from The Multiple.
+Static project, support, and privacy pages for apps from The Multiple.
+
+The bare domain is a minimal project index. Each app owns a stable directory
+containing its landing page and public support/privacy surfaces.
 
 ## Published URLs
 
+- `https://themultiple.net/collage/`
 - `https://themultiple.net/collage/support/`
 - `https://themultiple.net/collage/privacy/`
 
