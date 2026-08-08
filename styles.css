@@ -75,6 +75,7 @@
   --gutter: 2.5rem;
   --max: 64rem;
   --measure: 42rem;
+  --panel: 46rem;
 }
 
 @media (prefers-color-scheme: light) {
@@ -163,10 +164,46 @@ img { max-width: 100%; height: auto; }
 .band:first-of-type { border-top: 0; }
 .band > .rail { grid-column: 1; }
 .band > .field { grid-column: 2; min-width: 0; }
+/* Vertical rhythm. A single owl selector makes every gap identical, which reads
+   as unstructured on a long page — so space above a heading is larger than the
+   space below it, and blocks get more room than paragraphs. Ordered by
+   ascending specificity: base, then headings, then blocks, then pairs. */
 .field > * + * { margin-top: 1.1rem; }
+
+/* A heading opens a new thought: more space above, less below. */
+.field > * + h2 { margin-top: 2.6rem; }
+.field > * + h3 { margin-top: 2rem; }
+.field > h2 + *,
+.field > h3 + * { margin-top: 0.85rem; }
+
+/* Blocks sit further from the text that introduces them. */
+.field > * + .record,
+.field > * + .plane,
+.field > * + .table-wrap,
+.field > * + .stated,
+.field > * + .log,
+.field > * + .callout,
+.field > * + .guide-index { margin-top: 1.5rem; }
 .field > .record + *,
-.field > .facts + *,
-.field > .plane + * { margin-top: 1.8rem; }
+.field > .plane + *,
+.field > .table-wrap + *,
+.field > .stated + *,
+.field > .log + *,
+.field > .callout + *,
+.field > .guide-index + * { margin-top: 1.8rem; }
+
+/* An eyebrow belongs to the heading under it. */
+.field > .tag + h1,
+.field > .tag + h2 { margin-top: 0.5rem; }
+.field > h1 + .lede { margin-top: 1.5rem; }
+.field > .lede + .updated { margin-top: 1.2rem; }
+
+/* Panels stop where the text does, so the right edge stays quiet. Their inner
+   padding brings the contained text back into line with body copy. */
+.field > .stated,
+.field > .log,
+.field > .plane,
+.field > .table-wrap { max-width: var(--panel); }
 
 .rail {
   font-family: var(--mono);
@@ -398,6 +435,8 @@ a.wordmark:hover .art { color: var(--ink-2); }
   line-height: 1.45;
   color: var(--ink-3);
   margin-top: 0.15rem;
+  text-wrap: pretty;
+  hyphens: none;
 }
 .record li.closes .step { color: var(--spot-text); }
 
@@ -418,7 +457,13 @@ a.wordmark:hover .art { color: var(--ink-2); }
 /* ----------------------------------------------------------- 9. materials */
 /* Masks rather than images, so they tint from --mat in both themes. */
 
-.identity { position: relative; }
+/* isolation:isolate is load-bearing. Without it .identity is positioned but is
+   not a stacking context, so the z-index:-1 texture paints behind the body
+   background and never appears at all. */
+.identity {
+  position: relative;
+  isolation: isolate;
+}
 .identity::before {
   content: "";
   position: absolute;
@@ -637,19 +682,22 @@ td { color: var(--ink); }
 }
 .stated li {
   display: grid;
-  grid-template-columns: 1.4rem 1fr;
-  gap: 0.9rem;
-  padding: 0.8rem 1.1rem;
+  grid-template-columns: 0.6rem minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 0.75rem 1.1rem;
   border-top: 1px solid var(--rule);
   color: var(--ink-2);
-  font-size: 0.92rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
 }
 .stated li:first-child { border-top: 0; }
+/* Marker sits on the optical centre of the first line: half the line box, less
+   half the marker's own height. */
 .stated li::before {
   content: "";
   width: 0.5rem;
   height: 1px;
-  margin-top: 0.85em;
+  margin-top: 0.78em;
   background: var(--spot);
 }
 .stated.refuses li::before {
@@ -686,7 +734,9 @@ td { color: var(--ink); }
 
 /* ---------------------------------------------------------- 13. responsive */
 
-@media (max-width: 38rem) {
+/* Five columns get cramped well before phone width, so the strip becomes a
+   vertical ledger as soon as the detail lines stop fitting in two lines. */
+@media (max-width: 44rem) {
   .record { grid-auto-flow: row; grid-auto-columns: auto; }
   .record li { padding: 0 0 0.95rem 1.4rem; }
   .record li + li::before {
