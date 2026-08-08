@@ -3,37 +3,90 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Independent software projects from The Multiple.">
+  <meta name="description" content="Independent, local-first software from the Multiple: Collage, Steward, and Ficta.">
   <link rel="canonical" href="https://themultiple.net/">
-  <link rel="stylesheet" href="styles.css">
-  <title>The Multiple</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/bricolage-grotesque-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <title>the Multiple</title>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
-  <header class="site-header">
-    <a class="brand" href="./" aria-label="The Multiple home">The Multiple</a>
+
+  <header class="masthead">
+    <span class="wordmark"><span class="art">the</span>Multiple</span>
+    <nav aria-label="Projects">
+      <a href="/collage/">Collage</a>
+      <a href="/steward/">Steward</a>
+      <a href="/ficta/">Ficta</a>
+    </nav>
   </header>
 
-  <main id="content" class="shell index-shell">
-    <section class="index-heading">
-      <p class="eyebrow">Independent software</p>
-      <h1>Projects from The Multiple.</h1>
-      <p class="lede">Small, focused tools designed with care.</p>
+  <main id="content">
+    <section class="band">
+      <div class="rail"><b>Index</b><span>Ed. 01</span></div>
+      <div class="field">
+        <p class="tag">Independent software</p>
+        <h1>Three tools that keep an honest record.</h1>
+        <p class="lede">Small, local-first software. Each one keeps an ordered account of how it reached its result, and each one lets you walk back through it.</p>
+      </div>
     </section>
 
-    <section class="project-gallery" aria-label="Projects">
-      <a class="project-card" href="collage/">
-        <span class="project-meta">iPhone + iPad</span>
-        <h2>Collage</h2>
-        <p>A local-first editor for layered images, text, and transparent PNG exports.</p>
-        <span class="card-link">View project <span aria-hidden="true">→</span></span>
-      </a>
+    <section class="band">
+      <div class="rail"><b>Projects</b><span>Three</span></div>
+      <div class="field">
+        <div class="plane">
+          <a class="entry app-collage" href="/collage/">
+            <span class="swatch" aria-hidden="true"></span>
+            <span class="name">Collage</span>
+            <span class="state">iPhone · iPad — TestFlight</span>
+            <p class="say">Layered images, built on device. Nothing leaves it.</p>
+            <span class="fingerprint" aria-hidden="true"><i></i><u></u><i></i><u></u><i></i><u></u><i></i><u></u><i></i></span>
+          </a>
+          <a class="entry app-steward" href="/steward/">
+            <span class="swatch" aria-hidden="true"></span>
+            <span class="name">Steward</span>
+            <span class="state">iPhone · Mac — building</span>
+            <p class="say">Commitments that end in a recorded outcome, not silence.</p>
+            <span class="fingerprint" aria-hidden="true"><i></i><u></u><i></i><u></u><i></i><u></u><i></i><u></u><i></i></span>
+          </a>
+          <a class="entry app-ficta" href="/ficta/">
+            <span class="swatch" aria-hidden="true"></span>
+            <span class="name">Ficta</span>
+            <span class="state">Desktop — in development</span>
+            <p class="say">Musical truth maintenance. Sources reconciled into a theory you can defend and revise.</p>
+            <span class="fingerprint" aria-hidden="true"><i></i><u></u><i></i><u></u><i></i><u></u><i></i><u></u><i></i></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>In common</b><span>What holds</span></div>
+      <div class="field">
+        <h2>Different problems, one habit.</h2>
+        <p>Collage keeps every edit as a step you can return to. Steward will not let a commitment disappear without a recorded outcome. Ficta separates what a musical source actually says from what someone inferred from it.</p>
+        <p>None of them need an account. None of them send your work anywhere you did not choose. All three can show you how they got where they are.</p>
+      </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p><a href="mailto:sam@themultiple.net">sam@themultiple.net</a></p>
-    <p>© 2026 The Multiple</p>
+  <footer class="impression">
+    <div class="rail">
+      <svg class="monogram" viewBox="8 0 78 100" role="img" aria-label="the Multiple">
+        <path d="M74 16H18l24 34-24 34h56"/>
+        <ellipse cx="60" cy="50" rx="15" ry="21"/>
+        <path d="M60 6v5"/>
+        <path d="M60 21v73"/>
+      </svg>
+    </div>
+    <dl>
+      <dt>contact</dt><dd><a href="mailto:sam@themultiple.net">sam@themultiple.net</a></dd>
+      <dt>this site</dt><dd>hand-written HTML and CSS · no script · no cookies · no analytics · no third-party request</dd>
+      <dt>set in</dt><dd>Bricolage Grotesque, Inter and IBM Plex Mono — all open licence, all served from here</dd>
+      <dt>edition</dt><dd>01 · 2026 · the Multiple</dd>
+    </dl>
   </footer>
 </body>
 </html>

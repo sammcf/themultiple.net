@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 0 78 100">
+  <title>the Multiple</title>
+  <style>
+    path, ellipse {
+      fill: none;
+      stroke: #0e1013;
+      stroke-width: 9;
+      stroke-linecap: butt;
+      stroke-linejoin: round;
+    }
+    @media (prefers-color-scheme: dark) {
+      path, ellipse { stroke: #e9ecf0; }
+    }
+  </style>
+  <path d="M74 16H18l24 34-24 34h56"/>
+  <ellipse cx="60" cy="50" rx="15" ry="21"/>
+  <path d="M60 5v5"/>
+  <path d="M60 22v73"/>
+</svg>

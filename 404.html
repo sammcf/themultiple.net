@@ -4,15 +4,52 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <link rel="stylesheet" href="styles.css">
-  <title>Page not found · The Multiple</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/bricolage-grotesque-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <title>Page not found · the Multiple</title>
 </head>
 <body>
-  <main id="content" class="shell error-page">
-    <p class="eyebrow">404</p>
-    <h1>That page is not here.</h1>
-    <p class="lede">Return to the project index or open Collage.</p>
-    <p class="error-actions"><a class="button" href="./">All projects</a> <a href="collage/">Open Collage</a></p>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="masthead">
+    <a class="wordmark" href="/" aria-label="the Multiple, all projects"><span class="art">the</span>Multiple</a>
+    <nav aria-label="Projects">
+      <a href="/collage/">Collage</a>
+      <a href="/steward/">Steward</a>
+      <a href="/ficta/">Ficta</a>
+    </nav>
+  </header>
+
+  <main id="content">
+    <section class="band">
+      <div class="rail"><b>404</b><span>Not found</span></div>
+      <div class="field">
+        <p class="tag">No such page</p>
+        <h1>That page is not here.</h1>
+        <p class="lede">The address may have changed, or it may never have existed. Both are recoverable.</p>
+        <p class="actions">
+          <a class="button" href="/">All projects</a>
+          <a class="button button-quiet" href="/collage/">Open Collage</a>
+        </p>
+      </div>
+    </section>
   </main>
+
+  <footer class="impression">
+    <div class="rail">
+      <svg class="monogram" viewBox="8 0 78 100" role="img" aria-label="the Multiple">
+        <path d="M74 16H18l24 34-24 34h56"/>
+        <ellipse cx="60" cy="50" rx="15" ry="21"/>
+        <path d="M60 6v5"/>
+        <path d="M60 21v73"/>
+      </svg>
+    </div>
+    <dl>
+      <dt>contact</dt><dd><a href="mailto:sam@themultiple.net">sam@themultiple.net</a></dd>
+      <dt>edition</dt><dd>01 · 2026 · the Multiple</dd>
+    </dl>
+  </footer>
 </body>
 </html>

@@ -5,87 +5,120 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Collage is a local-first image compositor for iPhone and iPad.">
   <link rel="canonical" href="https://themultiple.net/collage/">
-  <link rel="stylesheet" href="../styles.css">
-  <title>Collage · The Multiple</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/bricolage-grotesque-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <title>Collage · the Multiple</title>
 </head>
-<body>
+<body class="app-collage">
   <a class="skip-link" href="#content">Skip to content</a>
-  <header class="site-header">
-    <a class="brand" href="../" aria-label="The Multiple projects">The Multiple</a>
-    <nav aria-label="Collage navigation">
-      <a aria-current="page" href="./">Collage</a>
-      <a href="guide/">Guide</a>
-      <a href="support/">Support</a>
-      <a href="privacy/">Privacy</a>
+
+  <header class="masthead">
+    <a class="wordmark" href="/" aria-label="the Multiple, all projects"><span class="art">the</span>Multiple</a>
+    <nav aria-label="Collage">
+      <a aria-current="page" href="/collage/">Collage</a>
+      <a href="/collage/guide/">Guide</a>
+      <a href="/collage/support/">Support</a>
+      <a href="/collage/privacy/">Privacy</a>
     </nav>
   </header>
 
-  <main id="content" class="shell">
-    <section class="hero">
-      <p class="eyebrow">Collage for iPhone and iPad</p>
-      <h1>Make layered images without giving up your privacy.</h1>
-      <p class="lede">Collage is a focused, local-first image compositor. Import photos, add image and text layers, refine your composition, and export a transparent PNG. Your projects stay on your device unless you choose to share them.</p>
-    </section>
-
-    <section class="quick-start" aria-labelledby="quick-start-heading">
-      <div class="section-heading">
-        <p class="eyebrow">Quick start</p>
-        <h2 id="quick-start-heading">From photo to finished PNG.</h2>
+  <main id="content">
+    <section class="band">
+      <div class="rail"><b>Collage</b><span>iPhone · iPad</span></div>
+      <div class="field identity">
+        <p class="tag">Image compositor</p>
+        <h1>Layered images, built on device.</h1>
+        <p class="lede">Import a photo, stack image and text layers on top of it, move and scale and crop them until the composition is right, then export one flattened PNG with its transparency intact. Your projects stay on your device unless you share them.</p>
       </div>
-
-      <ol class="step-grid">
-        <li class="step-card">
-          <span class="step-number" aria-hidden="true">1</span>
-          <h3>Create a project</h3>
-          <p>Tap <strong>+</strong> on the project list to open a new canvas.</p>
-        </li>
-        <li class="step-card">
-          <span class="step-number" aria-hidden="true">2</span>
-          <h3>Choose a base</h3>
-          <p>Tap <strong>Base</strong> and select the photo that should define the canvas.</p>
-        </li>
-        <li class="step-card">
-          <span class="step-number" aria-hidden="true">3</span>
-          <h3>Build the composition</h3>
-          <p>Use <strong>Layer</strong> and <strong>Text</strong>, then move, scale, rotate, crop, and reorder.</p>
-        </li>
-        <li class="step-card">
-          <span class="step-number" aria-hidden="true">4</span>
-          <h3>Export</h3>
-          <p>Tap <strong>Export</strong> to preview, save to Photos, or share the finished PNG.</p>
-        </li>
-      </ol>
-
-      <p class="section-action"><a class="button" href="guide/">Read the complete guide</a></p>
     </section>
 
-    <section class="card-grid" aria-label="Collage resources">
-      <a class="card" href="guide/">
-        <span class="card-kicker">Learn</span>
-        <h2>How to use Collage</h2>
-        <p>Learn the project workflow, interaction modes, layer tools, timeline, and export options.</p>
-        <span class="card-link">Open the guide <span aria-hidden="true">→</span></span>
-      </a>
+    <section class="band">
+      <div class="rail"><b>Pipeline</b><span>Every edit is a step</span></div>
+      <div class="field">
+        <ol class="record">
+          <li style="--i:0"><span class="node" aria-hidden="true"></span><span class="step">base</span><span class="detail">sets the canvas · bounded to 4096px</span></li>
+          <li style="--i:1"><span class="node" aria-hidden="true"></span><span class="step">layer</span><span class="detail">imported and ordered</span></li>
+          <li style="--i:2"><span class="node" aria-hidden="true"></span><span class="step">text</span><span class="detail">styled and placed</span></li>
+          <li style="--i:3"><span class="node" aria-hidden="true"></span><span class="step">transform</span><span class="detail">move · scale · rotate · flip · crop</span></li>
+          <li style="--i:4" class="closes"><span class="node" aria-hidden="true"></span><span class="step">flatten</span><span class="detail">PNG, transparency preserved</span></li>
+        </ol>
+        <p class="small">Each committed edit becomes a node on the timeline in the app. Step back to any earlier state, or jump straight to it — nothing is thrown away while it is still on the strip.</p>
+      </div>
+    </section>
 
-      <a class="card" href="support/">
-        <span class="card-kicker">Help</span>
-        <h2>Support</h2>
-        <p>Get troubleshooting guidance and learn what to include when reporting a problem.</p>
-        <span class="card-link">Open support <span aria-hidden="true">→</span></span>
-      </a>
+    <section class="band">
+      <div class="rail"><b>Facts</b><span>Checkable</span></div>
+      <div class="field">
+        <div class="table-wrap facts">
+          <table>
+            <tbody>
+              <tr><th scope="row">Platform</th><td>iPhone and iPad</td></tr>
+              <tr><th scope="row">Storage</th><td>On your device</td></tr>
+              <tr><th scope="row">Network</th><td>None. Collage has no backend.</td></tr>
+              <tr><th scope="row">Account</th><td>Not required. There is no sign-in.</td></tr>
+              <tr><th scope="row">Canvas</th><td>Set by the base image, bounded to 4096px on the longest edge</td></tr>
+              <tr><th scope="row">Export</th><td>Flattened PNG with full alpha</td></tr>
+              <tr><th scope="row">Price</th><td>Free. No ads, no purchases, no subscription.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-      <a class="card" href="privacy/">
-        <span class="card-kicker">Policy</span>
-        <h2>Privacy</h2>
-        <p>See what Collage stores locally, which permissions it uses, and what it does not collect.</p>
-        <span class="card-link">Read the policy <span aria-hidden="true">→</span></span>
-      </a>
+    <section class="band">
+      <div class="rail"><b>Install</b><span>TestFlight</span></div>
+      <div class="field">
+        <h2>Getting Collage.</h2>
+        <p>Collage is in TestFlight while external review completes. Email for an invitation and include the Apple ID address you want it sent to.</p>
+        <p class="actions">
+          <a class="button" href="mailto:sam@themultiple.net?subject=Collage%20TestFlight">Ask for an invitation</a>
+          <a class="button button-quiet" href="/collage/guide/">Read the guide first</a>
+        </p>
+        <p class="small">TestFlight builds expire ninety days after they are uploaded. Your projects survive an update, but export anything you care about before a build lapses.</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>More</b><span>Collage</span></div>
+      <div class="field">
+        <div class="plane">
+          <a class="entry plain" href="/collage/guide/">
+            <span class="name">How to use Collage</span>
+            <span class="state">Guide</span>
+            <p class="say">The project workflow, Canvas and Layer modes, cropping, text, the timeline, and export.</p>
+          </a>
+          <a class="entry plain" href="/collage/support/">
+            <span class="name">Support</span>
+            <span class="state">Help</span>
+            <p class="say">Troubleshooting, and what to include so a problem report is useful.</p>
+          </a>
+          <a class="entry plain" href="/collage/privacy/">
+            <span class="name">Privacy Policy</span>
+            <span class="state">Policy</span>
+            <p class="say">What Collage stores locally, which permissions it asks for, and what it does not collect.</p>
+          </a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p><a href="../">All projects</a> · <a href="guide/">Guide</a> · <a href="mailto:sam@themultiple.net">Contact</a></p>
-    <p>© 2026 The Multiple</p>
+  <footer class="impression">
+    <div class="rail">
+      <svg class="monogram" viewBox="8 0 78 100" role="img" aria-label="the Multiple">
+        <path d="M74 16H18l24 34-24 34h56"/>
+        <ellipse cx="60" cy="50" rx="15" ry="21"/>
+        <path d="M60 6v5"/>
+        <path d="M60 21v73"/>
+      </svg>
+    </div>
+    <dl>
+      <dt>collage</dt><dd>stores projects on device · sends nothing · asks for no account</dd>
+      <dt>this page</dt><dd>hand-written HTML and CSS · no script · no cookies · no analytics</dd>
+      <dt>contact</dt><dd><a href="mailto:sam@themultiple.net">sam@themultiple.net</a></dd>
+      <dt>elsewhere</dt><dd><a href="/">all projects</a> · <a href="/collage/guide/">guide</a> · <a href="/collage/support/">support</a> · <a href="/collage/privacy/">privacy</a></dd>
+    </dl>
   </footer>
 </body>
 </html>
