@@ -47,10 +47,13 @@ done
 
 # ------------------------------------------------------------------ every page
 
+# docs/ holds source material about the site rather than pages of it — the design
+# system, which carries its own stylesheet and quotes the brand rule verbatim. It
+# is checked out of the page rules below, so keep pages of the site out of docs/.
 pages=()
 while IFS= read -r file; do
   pages+=("$file")
-done < <(find . -name '*.html' -type f -not -path './.git/*' | sort)
+done < <(find . -name '*.html' -type f -not -path './.git/*' -not -path './docs/*' | sort)
 
 for file in "${pages[@]}"; do
   rg -qF '<html lang="en">' "$file"     || fail "$file has no English language declaration"
@@ -71,7 +74,8 @@ done
 # ------------------------------------------------------------------- the brand
 
 # The article is always lowercase. This is the one brand rule a machine can hold.
-if rg -nF 'The Multiple' --glob '*.html' --glob '*.css' --glob '*.xml' .; then
+# docs/ is exempt because that is where the rule is written down, capital and all.
+if rg -nF 'The Multiple' --glob '*.html' --glob '*.css' --glob '*.xml' --glob '!docs/**' .; then
   fail "the article is always lowercase: write 'the Multiple', never 'The Multiple'"
 fi
 

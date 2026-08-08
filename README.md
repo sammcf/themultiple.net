@@ -23,7 +23,17 @@ without transformation.
 ## The design system
 
 Edition 01. One stylesheet, `styles.css`, organised in fourteen numbered
-sections from faces and tokens down to motion. The short version:
+sections from faces and tokens down to motion.
+
+`docs/design-system.html` is the specimen the stylesheet was built from: every
+token, face, and component rendered against itself, with the reasoning beside
+each one. Open it directly in a browser — it is self-contained apart from the
+fonts, which it loads from `/fonts/`. It is source material rather than a page
+of the site, so it carries `noindex` and sits outside the page rules in
+`scripts/check-site.sh`. When the system moves, that file is the record of
+where it moved to.
+
+The short version:
 
 **The plane.** Dark is canonical; light is derived from the same token names
 under `prefers-color-scheme`. The neutrals carry a slight cool bias. Depth
