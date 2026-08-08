@@ -23,7 +23,14 @@ without transformation.
 ## The design system
 
 Edition 01. One stylesheet, `styles.css`, organised in fourteen numbered
-sections from faces and tokens down to motion. The short version:
+sections from faces and tokens down to motion.
+
+The stylesheet was built from a specimen — every token, face, and component
+rendered against itself, with the reasoning beside each one. That specimen is
+kept outside this repository: everything on this branch is served at
+themultiple.net, and it is working material rather than a page of the site.
+`docs/` is ignored here and `scripts/check-site.sh` steps around it, so the
+specimen can sit there locally without being published. The short version:
 
 **The plane.** Dark is canonical; light is derived from the same token names
 under `prefers-color-scheme`. The neutrals carry a slight cool bias. Depth
@@ -43,10 +50,12 @@ a font CDN; the check script fails the build if you do.
 
 **The record strip.** The signature. All three products are an ordered chain
 that closes, so one component carries each product's real sequence. It is an
-`<ol>` because the order is information. It draws itself on scroll via a
-single registered `@property` number and a view timeline, with no JavaScript;
-where that is unsupported it renders fully drawn, and reduced motion switches
-it off. Below 38rem it rotates to vertical.
+`<ol>` because the order is information. Two registered `@property` numbers
+drive it, with no JavaScript: `--t` draws it on scroll via a view timeline,
+and `--pulse` travels it every six seconds on an ordinary clock, swelling each
+node in turn and colouring the hairline behind it. Where view timelines are
+unsupported it renders fully drawn and still pulses; reduced motion parks both
+at rest. Below 38rem it rotates to vertical and the pulse travels down it.
 
 **Material.** Each project has a texture behind its identity block, drawn as
 a CSS mask so it tints from `--mat` in both themes: an alpha checkerboard for
