@@ -403,11 +403,13 @@ a.wordmark:hover .art { color: var(--ink-2); }
 .record li {
   --p: clamp(0, (var(--t) - var(--i) * 0.15) * 4, 1);
   /* A trapezoid: rises as the pulse reaches this node, holds, falls behind it.
-     Subtracting the delayed copy from the leading one is what shapes it. */
-  --q: calc(
-    clamp(0, (var(--pulse) - var(--i) * var(--stagger)) * var(--edge), 1) -
-    clamp(0, (var(--pulse) - var(--i) * var(--stagger) - var(--dwell)) * var(--edge), 1)
-  );
+     Subtracting the delayed copy from the leading one is what shapes it.
+     Multiplying by --p keeps the pulse behind the draw: a node cannot light
+     before it has been raised, and it lights only as far as it has been. */
+  --q: calc((
+      clamp(0, (var(--pulse) - var(--i) * var(--stagger)) * var(--edge), 1) -
+      clamp(0, (var(--pulse) - var(--i) * var(--stagger) - var(--dwell)) * var(--edge), 1)
+    ) * var(--p));
   position: relative;
   padding-top: 1.35rem;
   padding-right: 0.75rem;
