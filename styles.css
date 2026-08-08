@@ -487,8 +487,8 @@ a.wordmark:hover .art { color: var(--ink-2); }
 }
 /* staff, with editorial accidentals above it — the ficta convention */
 .app-ficta .identity::before {
-  --tex: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='64'%3E%3Cg stroke='%23000' stroke-width='1' fill='none'%3E%3Cpath d='M0 26.5h120M0 34.5h120M0 42.5h120M0 50.5h120M0 58.5h120'/%3E%3Cpath d='M22 8v14M27 6v14M19 13h11M19 18h11'/%3E%3Cpath d='M80 9v14M85 7v14M77 14h11M77 19h11'/%3E%3C/g%3E%3C/svg%3E");
-  --tex-size: 120px 64px;
+  --tex: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='64'%3E%3Cg stroke='%23000' stroke-width='1' fill='none'%3E%3Cpath d='M0 26.5h320M0 34.5h320M0 42.5h320M0 50.5h320M0 58.5h320'/%3E%3Cpath d='M46 9v14M51 7v14M43 14h11M43 19h11'/%3E%3C/g%3E%3C/svg%3E");
+  --tex-size: 320px 64px;
 }
 
 /* -------------------------------------------------- 10. index: the plane */
@@ -680,30 +680,34 @@ td { color: var(--ink); }
   border: 1px solid var(--rule);
   background: var(--ground-2);
 }
+/* Deliberately NOT display:grid. Grid promotes every inline child to its own
+   grid item, so a single <strong> in the text shatters the item into columns
+   that wrap one word per line. Absolute marker plus padding is immune to
+   whatever markup the content carries. */
 .stated li {
-  display: grid;
-  grid-template-columns: 0.6rem minmax(0, 1fr);
-  gap: 0.8rem;
-  padding: 0.75rem 1.1rem;
+  position: relative;
+  padding: 0.75rem 1.1rem 0.75rem 2.45rem;
   border-top: 1px solid var(--rule);
   color: var(--ink-2);
   font-size: 0.9375rem;
   line-height: 1.55;
 }
 .stated li:first-child { border-top: 0; }
-/* Marker sits on the optical centre of the first line: half the line box, less
-   half the marker's own height. */
+/* Marker sits on the optical centre of the first line: top padding, plus half
+   the line box, less half the marker's own height. */
 .stated li::before {
   content: "";
-  width: 0.5rem;
+  position: absolute;
+  left: 1.1rem;
+  top: calc(0.75rem + 0.775em);
+  width: 0.55rem;
   height: 1px;
-  margin-top: 0.78em;
   background: var(--spot);
 }
 .stated.refuses li::before {
+  top: calc(0.75rem + 0.52em);
   width: 0.5rem;
   height: 0.5rem;
-  margin-top: 0.5em;
   background: transparent;
   border: 1px solid var(--rule-2);
   border-radius: 50%;
