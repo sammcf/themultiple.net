@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Steward is a personal follow-through system: it observes commitments, asks for small decisions at useful moments, and records outcomes.">
+  <link rel="canonical" href="https://themultiple.net/steward/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/bricolage-grotesque-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <title>Steward · the Multiple</title>
+</head>
+<body class="app-steward">
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="masthead">
+    <a class="wordmark" href="/" aria-label="the Multiple, all projects"><span class="art">the</span>Multiple</a>
+    <nav aria-label="Projects">
+      <a href="/collage/">Collage</a>
+      <a aria-current="page" href="/steward/">Steward</a>
+      <a href="/ficta/">Ficta</a>
+    </nav>
+  </header>
+
+  <main id="content">
+    <section class="band">
+      <div class="rail"><b>Steward</b><span>iPhone · Mac</span></div>
+      <div class="field identity">
+        <p class="tag">In development</p>
+        <h1>Commitments that end in a recorded outcome.</h1>
+        <p class="lede">Steward is a personal follow-through system. It observes commitments, asks for small decisions at useful moments, records what happened, and lets that shape what it asks next. It is not a planner, and it is not a chat application.</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>The loop</b><span>Five steps</span></div>
+      <div class="field">
+        <ol class="record">
+          <li style="--i:0"><span class="node" aria-hidden="true"></span><span class="step">observe</span><span class="detail">something was undertaken</span></li>
+          <li style="--i:1"><span class="node" aria-hidden="true"></span><span class="step">establish</span><span class="detail">what completion would mean</span></li>
+          <li style="--i:2"><span class="node" aria-hidden="true"></span><span class="step">decide</span><span class="detail">whether attention is useful yet</span></li>
+          <li style="--i:3"><span class="node" aria-hidden="true"></span><span class="step">ask</span><span class="detail">one small decision, at one moment</span></li>
+          <li style="--i:4" class="closes"><span class="node" aria-hidden="true"></span><span class="step">record</span><span class="detail">an outcome — never silence</span></li>
+        </ol>
+        <p class="small">The interesting step is <strong>decide</strong>. Most reminder software asks whenever the clock says to. Steward has an interruption budget and quiet hours, and it has to justify spending your attention before it does.</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>Promises</b><span>Held by design</span></div>
+      <div class="field">
+        <h2>What it holds itself to.</h2>
+        <ul class="stated">
+          <li>A commitment ends in a recorded outcome. It does not silently disappear.</li>
+          <li>The record distinguishes <strong>facts</strong>, <strong>what you said</strong>, <strong>what was inferred</strong>, and <strong>what the system decided</strong>.</li>
+          <li>An inferred commitment never quietly becomes an accepted one.</li>
+          <li>A request for your attention offers a useful decision, not a generic reminder.</li>
+          <li>Changing or abandoning a commitment is a valid conscious outcome, recorded like any other.</li>
+          <li>Uncertainty is represented rather than invented away.</li>
+          <li>Anything irreversible or externally consequential needs your approval first.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>Refusals</b><span>Out of scope</span></div>
+      <div class="field">
+        <h2>What it will not become.</h2>
+        <p>These are not features waiting on time. They are excluded on purpose, and the design is easier to trust because of it.</p>
+        <ul class="stated refuses">
+          <li>Autonomous life planning.</li>
+          <li>General-purpose chat history as the source of truth.</li>
+          <li>Automatic commitment inference from your private services.</li>
+          <li>Behavioural scoring, streaks, or gamification.</li>
+          <li>Multi-user or multi-steward coordination.</li>
+          <li>A marketplace of tools.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>Shape</b><span>How it runs</span></div>
+      <div class="field">
+        <div class="table-wrap facts">
+          <table>
+            <tbody>
+              <tr><th scope="row">Clients</th><td>Native SwiftUI on iPhone and Mac</td></tr>
+              <tr><th scope="row">Coordinator</th><td>One process, on hardware you control</td></tr>
+              <tr><th scope="row">Storage</th><td>SQLite on the coordinator, canonical. Devices hold a cache, not the truth.</td></tr>
+              <tr><th scope="row">Network</th><td>Your devices to your coordinator. Nowhere else.</td></tr>
+              <tr><th scope="row">Account</th><td>None. Devices are paired directly.</td></tr>
+              <tr><th scope="row">Status</th><td>In development. No public release yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">There is nothing to install. If the shape of this is interesting to you, <a href="mailto:sam@themultiple.net?subject=Steward">say so</a> — it is useful to know who it is for.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="impression">
+    <div class="rail">
+      <svg class="monogram" viewBox="8 0 78 100" role="img" aria-label="the Multiple">
+        <path d="M74 16H18l24 34-24 34h56"/>
+        <ellipse cx="60" cy="50" rx="15" ry="21"/>
+        <path d="M60 6v5"/>
+        <path d="M60 21v73"/>
+      </svg>
+    </div>
+    <dl>
+      <dt>steward</dt><dd>stores its record on your own coordinator · no account · no third-party service</dd>
+      <dt>this page</dt><dd>hand-written HTML and CSS · no script · no cookies · no analytics</dd>
+      <dt>contact</dt><dd><a href="mailto:sam@themultiple.net">sam@themultiple.net</a></dd>
+      <dt>elsewhere</dt><dd><a href="/">all projects</a> · <a href="/collage/">collage</a> · <a href="/ficta/">ficta</a></dd>
+    </dl>
+  </footer>
+</body>
+</html>

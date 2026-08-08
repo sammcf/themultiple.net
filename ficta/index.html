@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ficta is a musical truth maintenance engine: it reconciles heterogeneous musical sources into theories you can defend and revise.">
+  <link rel="canonical" href="https://themultiple.net/ficta/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/bricolage-grotesque-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <title>Ficta · the Multiple</title>
+</head>
+<body class="app-ficta">
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="masthead">
+    <a class="wordmark" href="/" aria-label="the Multiple, all projects"><span class="art">the</span>Multiple</a>
+    <nav aria-label="Projects">
+      <a href="/collage/">Collage</a>
+      <a href="/steward/">Steward</a>
+      <a aria-current="page" href="/ficta/">Ficta</a>
+    </nav>
+  </header>
+
+  <main id="content">
+    <section class="band">
+      <div class="rail"><b>Ficta</b><span>Desktop</span></div>
+      <div class="field identity">
+        <p class="tag">In development</p>
+        <h1>Musical truth maintenance.</h1>
+        <p class="lede">Ficta reconciles heterogeneous musical sources — audio, notation, annotations — into coherent theories you can defend, question, and revise. It exists to mechanise reasoning. It does not mechanise musicianship.</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>The chain</b><span>Source to projection</span></div>
+      <div class="field">
+        <ol class="record">
+          <li style="--i:0"><span class="node" aria-hidden="true"></span><span class="step">source</span><span class="detail">audio · MusicXML · annotation</span></li>
+          <li style="--i:1"><span class="node" aria-hidden="true"></span><span class="step">claim</span><span class="detail">asserted by a source, not yet true</span></li>
+          <li style="--i:2"><span class="node" aria-hidden="true"></span><span class="step">judgement</span><span class="detail">the human call, recorded</span></li>
+          <li style="--i:3"><span class="node" aria-hidden="true"></span><span class="step">theory</span><span class="detail">coherent, versioned, revisable</span></li>
+          <li style="--i:4" class="closes"><span class="node" aria-hidden="true"></span><span class="step">projection</span><span class="detail">rendered, and reproducible from the theory</span></li>
+        </ol>
+        <p class="small">Nothing skips a step. A source cannot assert a fact into existence, and a projection is never the record — it can always be regenerated from the theory that produced it.</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>The name</b><span>Musica ficta</span></div>
+      <div class="field">
+        <h2>Ficta is what an editor supplies, marked as supplied.</h2>
+        <p>In music before roughly 1600, sources routinely leave out accidentals the performer is expected to add. <em>Musica recta</em> is the given gamut — what the source actually says. <em>Musica ficta</em> is what informed judgement supplies on top of it.</p>
+        <p>Editors print ficta <strong>above the staff</strong>, never inline, so a reader can always tell the source from the inference. Change one ficta decision and the consequences run through the whole passage, which is why it is argued as a constraint problem rather than a matter of taste.</p>
+        <p>That is this software in a single medieval term: claim and fact kept apart, judgement recorded, and a reading that stays revisable because the reasoning was never thrown away.</p>
+        <p class="small">Previously worked on as <em>Arranger's Workbench</em>. The old name described the bench; this one describes the work.</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>Record</b><span>24 decisions</span></div>
+      <div class="field">
+        <h2>The build, as it was decided.</h2>
+        <p>Ficta is not released. What exists is a specification and an accepted decision record — so that is what this page shows, rather than screenshots of something unfinished.</p>
+        <ul class="log">
+          <li>
+            <span class="when">ADR-0001</span>
+            <span class="what">Application-owned musical knowledge model</span>
+            <span class="why">The musical model belongs to the application. No file format or notation library gets to decide what a note means here.</span>
+          </li>
+          <li>
+            <span class="when">ADR-0002</span>
+            <span class="what">Establish facts through judgements in versioned theories</span>
+            <span class="why">A source makes a claim. A person makes a judgement. Only then is there a fact — and only inside a theory that carries a version.</span>
+          </li>
+          <li>
+            <span class="when">ADR-0004</span>
+            <span class="what">Treat projections as reproducible derivations</span>
+            <span class="why">Anything rendered can be regenerated from the theory behind it. Output is never allowed to become the record.</span>
+          </li>
+          <li>
+            <span class="when">ADR-0008</span>
+            <span class="what">Keep core operation local, require explicit network authority</span>
+            <span class="why">Everything works offline. Reaching the network is a capability that has to be granted, not a default it has to be talked out of.</span>
+          </li>
+          <li>
+            <span class="when">ADR-0011</span>
+            <span class="what">Isolated Python workers for analysis and machine learning</span>
+            <span class="why">Analysis runs in workers that propose results. They cannot write canonical state, so a confident model cannot quietly become the truth.</span>
+          </li>
+          <li>
+            <span class="when">ADR-0023</span>
+            <span class="what">Implement the domain and application core in Rust</span>
+            <span class="why">Truth maintenance and coordinated writes live in one typed core. Nothing outside it establishes musical truth.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="rail"><b>Shape</b><span>How it runs</span></div>
+      <div class="field">
+        <div class="table-wrap facts">
+          <table>
+            <tbody>
+              <tr><th scope="row">Platform</th><td>Desktop — macOS, Linux, Windows</td></tr>
+              <tr><th scope="row">Core</th><td>Rust. Owns the domain, judgements, and truth maintenance.</td></tr>
+              <tr><th scope="row">Analysis</th><td>Isolated Python workers that propose, never write</td></tr>
+              <tr><th scope="row">Interface</th><td>SvelteKit in a Tauri shell</td></tr>
+              <tr><th scope="row">Storage</th><td>SQLite with content-addressed local objects</td></tr>
+              <tr><th scope="row">Network</th><td>None by default. Granted per capability, never assumed.</td></tr>
+              <tr><th scope="row">Status</th><td>In development. Specification and decision record first.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Nothing to install yet. If you work with sources that disagree with each other and want to hear when there is something to try, <a href="mailto:sam@themultiple.net?subject=Ficta">get in touch</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="impression">
+    <div class="rail">
+      <svg class="monogram" viewBox="8 0 78 100" role="img" aria-label="the Multiple">
+        <path d="M74 16H18l24 34-24 34h56"/>
+        <ellipse cx="60" cy="50" rx="15" ry="21"/>
+        <path d="M60 6v5"/>
+        <path d="M60 21v73"/>
+      </svg>
+    </div>
+    <dl>
+      <dt>ficta</dt><dd>local-first · no network without explicit authority · no account</dd>
+      <dt>this page</dt><dd>hand-written HTML and CSS · no script · no cookies · no analytics</dd>
+      <dt>contact</dt><dd><a href="mailto:sam@themultiple.net">sam@themultiple.net</a></dd>
+      <dt>elsewhere</dt><dd><a href="/">all projects</a> · <a href="/collage/">collage</a> · <a href="/steward/">steward</a></dd>
+    </dl>
+  </footer>
+</body>
+</html>
