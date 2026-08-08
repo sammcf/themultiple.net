@@ -30,7 +30,7 @@
       <div class="field identity">
         <p class="tag">Image compositor</p>
         <h1>Layered images, built on device.</h1>
-        <p class="lede">Import a photo, stack image and text layers on top of it, move and scale and crop them until the composition is right, then export one flattened PNG with its transparency intact. Your projects stay on your device unless you share them.</p>
+        <p class="lede">Import a photo, stack image and text layers on it, transform them until the composition is right, then export one flattened PNG with its transparency intact. Projects stay on your device unless you share them.</p>
       </div>
     </section>
 
@@ -38,13 +38,13 @@
       <div class="rail"><b>Pipeline</b><span>Every edit is a step</span></div>
       <div class="field">
         <ol class="record">
-          <li style="--i:0"><span class="node" aria-hidden="true"></span><span class="step">base</span><span class="detail">sets the canvas · bounded to 4096px</span></li>
-          <li style="--i:1"><span class="node" aria-hidden="true"></span><span class="step">layer</span><span class="detail">imported and ordered</span></li>
-          <li style="--i:2"><span class="node" aria-hidden="true"></span><span class="step">text</span><span class="detail">styled and placed</span></li>
-          <li style="--i:3"><span class="node" aria-hidden="true"></span><span class="step">transform</span><span class="detail">move · scale · rotate · flip · crop</span></li>
-          <li style="--i:4" class="closes"><span class="node" aria-hidden="true"></span><span class="step">flatten</span><span class="detail">PNG, transparency preserved</span></li>
+          <li style="--i:0"><span class="node" aria-hidden="true"></span><span class="step">base</span><span class="detail">sets the canvas · 4096px cap</span></li>
+          <li style="--i:1"><span class="node" aria-hidden="true"></span><span class="step">layer</span><span class="detail">imported, ordered</span></li>
+          <li style="--i:2"><span class="node" aria-hidden="true"></span><span class="step">text</span><span class="detail">styled, placed</span></li>
+          <li style="--i:3"><span class="node" aria-hidden="true"></span><span class="step">transform</span><span class="detail">move · scale · rotate · crop</span></li>
+          <li style="--i:4" class="closes"><span class="node" aria-hidden="true"></span><span class="step">flatten</span><span class="detail">PNG, alpha preserved</span></li>
         </ol>
-        <p class="small">Each committed edit becomes a node on the timeline in the app. Step back to any earlier state, or jump straight to it — nothing is thrown away while it is still on the strip.</p>
+        <p class="small">Every committed edit becomes a node on the app's timeline. Step back one edit at a time, or jump straight to an earlier state — nothing is discarded while it is still on the strip.</p>
       </div>
     </section>
 
@@ -57,7 +57,7 @@
               <tr><th scope="row">Platform</th><td>iPhone and iPad</td></tr>
               <tr><th scope="row">Storage</th><td>On your device</td></tr>
               <tr><th scope="row">Network</th><td>None. Collage has no backend.</td></tr>
-              <tr><th scope="row">Account</th><td>Not required. There is no sign-in.</td></tr>
+              <tr><th scope="row">Account</th><td>None. There is no sign-in.</td></tr>
               <tr><th scope="row">Canvas</th><td>Set by the base image, bounded to 4096px on the longest edge</td></tr>
               <tr><th scope="row">Export</th><td>Flattened PNG with full alpha</td></tr>
               <tr><th scope="row">Price</th><td>Free. No ads, no purchases, no subscription.</td></tr>
@@ -71,12 +71,12 @@
       <div class="rail"><b>Install</b><span>TestFlight</span></div>
       <div class="field">
         <h2>Getting Collage.</h2>
-        <p>Collage is in TestFlight while external review completes. Email for an invitation and include the Apple ID address you want it sent to.</p>
+        <p>Collage is in TestFlight while external review completes. Email for an invitation, and include the Apple ID address it should go to.</p>
         <p class="actions">
           <a class="button" href="mailto:sam@themultiple.net?subject=Collage%20TestFlight">Ask for an invitation</a>
           <a class="button button-quiet" href="/collage/guide/">Read the guide first</a>
         </p>
-        <p class="small">TestFlight builds expire ninety days after they are uploaded. Your projects survive an update, but export anything you care about before a build lapses.</p>
+        <p class="small">TestFlight builds expire ninety days after upload. Projects survive an update, but export anything you care about before a build lapses.</p>
       </div>
     </section>
 
