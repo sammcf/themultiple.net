@@ -53,10 +53,12 @@ a font CDN; the check script fails the build if you do.
 
 **The record strip.** The signature. All three products are an ordered chain
 that closes, so one component carries each product's real sequence. It is an
-`<ol>` because the order is information. It draws itself on scroll via a
-single registered `@property` number and a view timeline, with no JavaScript;
-where that is unsupported it renders fully drawn, and reduced motion switches
-it off. Below 38rem it rotates to vertical.
+`<ol>` because the order is information. Two registered `@property` numbers
+drive it, with no JavaScript: `--t` draws it on scroll via a view timeline,
+and `--pulse` travels it every six seconds on an ordinary clock, swelling each
+node in turn and colouring the hairline behind it. Where view timelines are
+unsupported it renders fully drawn and still pulses; reduced motion parks both
+at rest. Below 38rem it rotates to vertical and the pulse travels down it.
 
 **Material.** Each project has a texture behind its identity block, drawn as
 a CSS mask so it tints from `--mat` in both themes: an alpha checkerboard for

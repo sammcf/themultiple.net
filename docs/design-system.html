@@ -158,27 +158,48 @@ a:focus-visible,.entry:focus-visible{outline:2px solid var(--spot); outline-offs
 
 /* ─────────────── the signature: the record strip ─────────────── */
 @property --t{syntax:"<number>"; inherits:true; initial-value:1}
+/* --t draws the strip once, on arrival; --pulse then travels it, on a loop.
+   The initial value is the rest value: every node passed, nothing lit. */
+@property --pulse{syntax:"<number>"; inherits:true; initial-value:.7}
 
 .record{
   --t:1;
+  --pulse:.7;
+  --stagger:.11; /* pulse units between one node and the next */
+  --dwell:.1;    /* how long a node stays at full brightness */
+  --edge:16;     /* rise and fall steepness */
   list-style:none; margin:0; padding:0;
   display:grid; grid-auto-flow:column; grid-auto-columns:1fr;
   align-items:start;
 }
 .record li{
   --p:clamp(0,(var(--t) - var(--i) * .15) * 4,1);
+  /* a trapezoid: the leading edge minus a delayed copy of itself */
+  --q:calc(
+    clamp(0,(var(--pulse) - var(--i) * var(--stagger)) * var(--edge),1) -
+    clamp(0,(var(--pulse) - var(--i) * var(--stagger) - var(--dwell)) * var(--edge),1)
+  );
   position:relative; padding-top:1.35rem; padding-right:.75rem;
   opacity:calc(.12 + .88 * var(--p));
 }
 /* the hairline runs from this node back to the previous one */
 .record li + li::before{
   content:""; position:absolute; top:.36rem; right:100%; width:100%; height:1px;
-  background:var(--rule-2); transform:scaleX(var(--p)); transform-origin:left;
+  background:var(--rule-2);
+  background:color-mix(in oklab, var(--spot) calc(var(--q) * 85%), var(--rule-2));
+  transform:scaleX(var(--p)); transform-origin:left;
 }
 .record .node{
   position:absolute; top:0; left:0; width:9px; height:9px; border-radius:50%;
   border:1.5px solid var(--spot); background:var(--ground);
+  transform:scale(calc(1 + .55 * var(--q)));
 }
+/* the halo rides the node's own transform, so it swells with it */
+.record .node::after{
+  content:""; position:absolute; inset:-4px; border-radius:50%;
+  border:1px solid var(--spot); opacity:calc(var(--q) * .45);
+}
+.record li.closes .node::after{inset:-7px}
 .record li:first-child .node{background:var(--spot)}
 .record li.closes .node{
   background:var(--spot);
@@ -193,12 +214,22 @@ a:focus-visible,.entry:focus-visible{outline:2px solid var(--spot); outline-offs
 }
 .record li.closes .step{color:var(--spot-text)}
 
-@supports (animation-timeline:view()){
-  @media (prefers-reduced-motion:no-preference){
-    .record{animation:draw linear both; animation-timeline:view(); animation-range:entry 25% cover 45%}
+@media (prefers-reduced-motion:no-preference){
+  /* the loop is on a clock, not a timeline, so it runs even where view() does not */
+  .record{animation:pulse 6s linear infinite}
+
+  @supports (animation-timeline:view()){
+    .record{
+      animation:draw linear both, pulse 6s linear infinite;
+      animation-timeline:view(), auto;
+      animation-range:entry 35% cover 65%, normal;
+    }
   }
 }
 @keyframes draw{from{--t:0} to{--t:1}}
+/* travel, then rest — the sweep ends past the last node, so the jump back to
+   the start of the cycle happens with nothing lit */
+@keyframes pulse{0%{--pulse:0} 46%{--pulse:.7} 100%{--pulse:.7}}
 
 @media (max-width:38rem){
   .record{grid-auto-flow:row; grid-auto-columns:auto; gap:.1rem}
@@ -538,7 +569,7 @@ pre i{color:var(--ink-3); font-style:normal}
       </ol>
     </div>
 
-    <p class="small" style="margin-top:2rem">The strip draws itself left to right as it enters the viewport — one <span class="mono">@property</span> number animated on the list by a scroll timeline, which the nodes read to stagger themselves. No JavaScript. Where <span class="mono">animation-timeline</span> is unsupported it renders fully drawn, and <span class="mono">prefers-reduced-motion</span> switches it off. Below 38rem it rotates to vertical, where it stops being a pipeline and becomes a ledger. This is the only motion in the system.</p>
+    <p class="small" style="margin-top:2rem">Two <span class="mono">@property</span> numbers on the list, which the nodes read to stagger themselves. <span class="mono">--t</span> draws the strip left to right as it enters the viewport, on a scroll timeline. <span class="mono">--pulse</span> then travels it every six seconds, on a clock: each node swells and haloes in turn and the hairline behind it takes the spot ink, so the chain reads as something traversed rather than something printed. The sweep takes under three seconds and rests for the remainder, and it ends past the last node, so the return to the start of the cycle happens with nothing lit. No JavaScript. Where <span class="mono">animation-timeline</span> is unsupported the strip renders fully drawn and still pulses; <span class="mono">prefers-reduced-motion</span> parks both at rest. Below 38rem it rotates to vertical, where it stops being a pipeline and becomes a ledger, and the pulse travels down it. This is the only motion in the system.</p>
   </div>
 </section>
 

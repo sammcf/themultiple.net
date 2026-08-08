@@ -377,8 +377,21 @@ a.wordmark:hover .art { color: var(--ink-2); }
   initial-value: 1;
 }
 
+/* --t draws the strip once, on arrival. --pulse then travels it, on a loop, so
+   the chain reads as something traversed rather than something printed. Its
+   initial value is the rest value: every node already passed, nothing lit. */
+@property --pulse {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.7;
+}
+
 .record {
   --t: 1;
+  --pulse: 0.7;
+  --stagger: 0.11; /* pulse units between one node and the next */
+  --dwell: 0.1;    /* how long a node stays at full brightness */
+  --edge: 16;      /* rise and fall steepness: 1/16 of a unit each */
   list-style: none;
   margin: 0;
   padding: 0;
@@ -389,6 +402,12 @@ a.wordmark:hover .art { color: var(--ink-2); }
 }
 .record li {
   --p: clamp(0, (var(--t) - var(--i) * 0.15) * 4, 1);
+  /* A trapezoid: rises as the pulse reaches this node, holds, falls behind it.
+     Subtracting the delayed copy from the leading one is what shapes it. */
+  --q: calc(
+    clamp(0, (var(--pulse) - var(--i) * var(--stagger)) * var(--edge), 1) -
+    clamp(0, (var(--pulse) - var(--i) * var(--stagger) - var(--dwell)) * var(--edge), 1)
+  );
   position: relative;
   padding-top: 1.35rem;
   padding-right: 0.75rem;
@@ -403,6 +422,7 @@ a.wordmark:hover .art { color: var(--ink-2); }
   width: 100%;
   height: 1px;
   background: var(--rule-2);
+  background: color-mix(in oklab, var(--spot) calc(var(--q) * 85%), var(--rule-2));
   transform: scaleX(var(--p));
   transform-origin: left;
 }
@@ -415,7 +435,18 @@ a.wordmark:hover .art { color: var(--ink-2); }
   border-radius: 50%;
   border: 1.5px solid var(--spot);
   background: var(--ground);
+  transform: scale(calc(1 + 0.55 * var(--q)));
 }
+/* The halo rides the node's own transform, so it swells with it. */
+.record .node::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--spot);
+  opacity: calc(var(--q) * 0.45);
+}
+.record li.closes .node::after { inset: -7px; }
 .record li:first-child .node { background: var(--spot); }
 .record li.closes .node {
   background: var(--spot);
@@ -440,18 +471,31 @@ a.wordmark:hover .art { color: var(--ink-2); }
 }
 .record li.closes .step { color: var(--spot-text); }
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
+  /* The loop is on a clock, not a timeline, so it runs even where view() does
+     not — there the strip is simply drawn from the start and still pulses. */
+  .record {
+    animation: record-pulse 6s linear infinite;
+  }
+
+  @supports (animation-timeline: view()) {
     .record {
-      animation: record-draw linear both;
-      animation-timeline: view();
-      animation-range: entry 25% cover 45%;
+      animation: record-draw linear both, record-pulse 6s linear infinite;
+      animation-timeline: view(), auto;
+      animation-range: entry 35% cover 65%, normal;
     }
   }
 }
 @keyframes record-draw {
   from { --t: 0; }
   to { --t: 1; }
+}
+/* Travel, then rest. The sweep ends past the last node, so the jump back to
+   the start of the cycle happens with nothing lit. */
+@keyframes record-pulse {
+  0% { --pulse: 0; }
+  46% { --pulse: 0.7; }
+  100% { --pulse: 0.7; }
 }
 
 /* ----------------------------------------------------------- 9. materials */
