@@ -12,6 +12,7 @@ required_files=(
   robots.txt
   sitemap.xml
   collage/index.html
+  collage/guide/index.html
   collage/support/index.html
   collage/privacy/index.html
 )
@@ -44,7 +45,9 @@ grep -q 'sam@themultiple.net' collage/support/index.html
 grep -q 'sam@themultiple.net' collage/privacy/index.html
 grep -q 'href="collage/"' index.html
 grep -q 'https://themultiple.net/collage/' collage/index.html
+grep -q 'https://themultiple.net/collage/guide/' collage/guide/index.html
 grep -q 'https://themultiple.net/collage/' sitemap.xml
+grep -q 'https://themultiple.net/collage/guide/' sitemap.xml
 grep -q 'https://themultiple.net/collage/support/' sitemap.xml
 grep -q 'https://themultiple.net/collage/privacy/' sitemap.xml
 

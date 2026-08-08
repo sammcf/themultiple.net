@@ -8,6 +8,7 @@ containing its landing page and public support/privacy surfaces.
 ## Published URLs
 
 - `https://themultiple.net/collage/`
+- `https://themultiple.net/collage/guide/`
 - `https://themultiple.net/collage/support/`
 - `https://themultiple.net/collage/privacy/`
 
