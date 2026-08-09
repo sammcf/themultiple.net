@@ -63,6 +63,13 @@ a CSS mask so it tints from `--mat` in both themes: an alpha checkerboard for
 Collage, ledger rules for Steward, and a staff with editorial accidentals
 above it for Ficta.
 
+**The menu.** The same three projects on every page, in the same order, so the
+header never rearranges itself under you. A project's own pages — Collage's
+guide, support, and privacy — hang below it as a second row that is present
+only while you are inside that project, and absent everywhere else. Two states,
+and they are different claims: the page you are on is underlined in full spot
+ink, the project you are inside but not on is underlined at forty percent.
+
 **The page template.** Masthead, identity, record, facts, then whatever that
 project actually has — install, refusals, build log — and the impression
 footer. Blocks render only when they are true. A page with nothing to install

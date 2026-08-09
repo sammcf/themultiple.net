@@ -329,6 +329,17 @@ a.wordmark:hover .art { color: var(--ink-2); }
   padding-block: 1.4rem;
   border-bottom: 1px solid var(--rule);
 }
+/* The menu is the three projects, always the same three, in the same order.
+   A project's own pages hang below it as a second row, present only while you
+   are inside that project — the same rule the page template follows, that a
+   block renders when it is true. */
+/* The rows stretch rather than sit at their own width: a row sized to its
+   content escapes the header instead of wrapping inside it. */
+.masthead .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
 .masthead nav { display: flex; flex-wrap: wrap; gap: 1.1rem; }
 .masthead nav a {
   font-family: var(--mono);
@@ -341,9 +352,19 @@ a.wordmark:hover .art { color: var(--ink-2); }
   padding-bottom: 0.15rem;
 }
 .masthead nav a:hover { color: var(--ink); }
-.masthead nav a[aria-current="page"] {
-  color: var(--ink);
-  border-bottom: 2px solid var(--spot);
+/* Two states, and they are different claims: the page you are on is underlined
+   in full spot ink; the project you are inside, but not on, is half-stated. */
+.masthead nav a[aria-current] { color: var(--ink); }
+.masthead nav a[aria-current="page"] { border-bottom: 2px solid var(--spot); }
+.masthead .apps a[aria-current="true"] {
+  border-bottom: 2px solid color-mix(in oklab, var(--spot) 40%, transparent);
+}
+/* The second row drops the uppercase tracking, as the rail's sub-line does,
+   so the levels read apart without a second size or a second colour. */
+.masthead .within { gap: 0.95rem; }
+.masthead .within a {
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 .impression {
@@ -392,6 +413,12 @@ a.wordmark:hover .art { color: var(--ink-2); }
   --stagger: 0.11; /* pulse units between one node and the next */
   --dwell: 0.1;    /* how long a node stays at full brightness */
   --edge: 16;      /* rise and fall steepness: 1/16 of a unit each */
+  --node: 9px;     /* node diameter, border-box */
+  --hair: 1px;     /* the throughline */
+  /* The throughline must meet the nodes through their centres, so its offset
+     is derived from the node rather than typed beside it: a node placed hard
+     against the edge of its cell has its centre half a diameter in. */
+  --centre: calc((var(--node) - var(--hair)) / 2);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -419,10 +446,10 @@ a.wordmark:hover .art { color: var(--ink-2); }
 .record li + li::before {
   content: "";
   position: absolute;
-  top: 0.36rem;
+  top: var(--centre);
   right: 100%;
   width: 100%;
-  height: 1px;
+  height: var(--hair);
   background: var(--rule-2);
   background: color-mix(in oklab, var(--spot) calc(var(--q) * 85%), var(--rule-2));
   transform: scaleX(var(--p));
@@ -432,8 +459,8 @@ a.wordmark:hover .art { color: var(--ink-2); }
   position: absolute;
   top: 0;
   left: 0;
-  width: 9px;
-  height: 9px;
+  width: var(--node);
+  height: var(--node);
   border-radius: 50%;
   border: 1.5px solid var(--spot);
   background: var(--ground);
@@ -791,9 +818,9 @@ td { color: var(--ink); }
   .record li { padding: 0 0 0.95rem 1.4rem; }
   .record li + li::before {
     top: 0;
-    left: 4px;
+    left: var(--centre);
     right: auto;
-    width: 1px;
+    width: var(--hair);
     height: 100%;
     transform: scaleY(var(--p));
     transform-origin: top;
