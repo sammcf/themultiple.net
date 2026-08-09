@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>the Multiple — Design System, ed. 01</title>
+<style>
+/* ─────────────────────────── faces ─────────────────────────── */
+@font-face{font-family:"Bricolage";src:url("../fonts/bricolage-grotesque-variable.woff2") format("woff2");font-weight:400 800;font-style:normal;font-display:swap}
+@font-face{font-family:"InterVar";src:url("../fonts/inter-variable.woff2") format("woff2");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"PlexMono";src:url("../fonts/ibm-plex-mono-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"PlexMono";src:url("../fonts/ibm-plex-mono-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+
+/* ───────────────────────── the plane ───────────────────────── */
+/* dark is canonical; light is derived from the same token names */
+:root{
+  color-scheme:dark;
+  --ground:#0E1013; --ground-2:#14171C; --ground-3:#0A0B0E;
+  --rule:#21262D;   --rule-2:#333B44;
+  --ink:#E9ECF0;    --ink-2:#99A2AC;   --ink-3:#6A737D;
+  --mat:#FFFFFF; --mat-a:.045;
+  --shadow:0 1px 0 rgb(255 255 255 / .03);
+
+  --collage:#FF4F87;   --collage-text:#FF7AA4;
+  --steward:#F5A63C;   --steward-text:#FFBE63;
+  --ficta:#8A72FF;     --ficta-text:#A895FF;
+
+  --spot:var(--ink-2); --spot-text:var(--ink);
+
+  --display:"Bricolage",ui-sans-serif,system-ui,sans-serif;
+  --body:"InterVar",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:"PlexMono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --rail:9.5rem; --gutter:2.5rem; --max:64rem; --measure:42rem;
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    color-scheme:light;
+    --ground:#F1F2F4; --ground-2:#FFFFFF; --ground-3:#E6E8EB;
+    --rule:#DBDFE4;   --rule-2:#BCC3CB;
+    --ink:#14171C;    --ink-2:#4D555E;   --ink-3:#757D86;
+    --mat:#0E1013; --mat-a:.07;
+    --shadow:0 1px 2px rgb(20 23 28 / .06);
+    --collage:#D4185B;  --collage-text:#B31049;
+    --steward:#B36A00;  --steward-text:#8A5100;
+    --ficta:#5433D6;    --ficta-text:#4526BC;
+  }
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --ground:#F1F2F4; --ground-2:#FFFFFF; --ground-3:#E6E8EB;
+  --rule:#DBDFE4;   --rule-2:#BCC3CB;
+  --ink:#14171C;    --ink-2:#4D555E;   --ink-3:#757D86;
+  --mat:#0E1013; --mat-a:.07;
+  --shadow:0 1px 2px rgb(20 23 28 / .06);
+  --collage:#D4185B;  --collage-text:#B31049;
+  --steward:#B36A00;  --steward-text:#8A5100;
+  --ficta:#5433D6;    --ficta-text:#4526BC;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-optical-sizing:auto;
+  font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--spot); color:var(--ground)}
+
+/* ───────────────────────── structure ───────────────────────── */
+.band{
+  display:grid; grid-template-columns:var(--rail) minmax(0,1fr);
+  column-gap:var(--gutter);
+  width:min(100% - 3rem,var(--max)); margin-inline:auto;
+  padding-block:3.5rem;
+  border-top:1px solid var(--rule);
+}
+.band:first-of-type{border-top:0}
+.band > .rail{grid-column:1}
+.band > .field{grid-column:2; min-width:0}
+.field > * + *{margin-top:1.1rem}
+.field > .record + *, .field > .grid + *, .field > .anatomy + *{margin-top:1.8rem}
+
+.rail{
+  font-family:var(--mono); font-weight:500; font-size:.6875rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+  line-height:1.5; padding-top:.45rem;
+}
+.rail b{display:block; font-weight:500; color:var(--spot-text)}
+.rail span{display:block; color:var(--ink-3); letter-spacing:.1em; text-transform:none}
+
+/* ────────────────────────── type ─────────────────────────── */
+h1,h2,h3{font-family:var(--display); margin:0; text-wrap:balance; font-weight:600}
+h1{font-size:clamp(2.4rem,5.5vw,4rem); line-height:.98; letter-spacing:-.035em; font-weight:700}
+h2{font-size:clamp(1.7rem,3.4vw,2.35rem); line-height:1.06; letter-spacing:-.028em}
+h3{font-size:1.18rem; line-height:1.2; letter-spacing:-.018em; font-weight:600}
+p{margin:0; max-width:var(--measure)}
+.lede{font-size:1.1rem; color:var(--ink-2); max-width:38rem}
+.small{font-size:.9rem; color:var(--ink-2)}
+strong{font-weight:600; color:var(--ink)}
+a{color:var(--spot-text); text-underline-offset:.2em; text-decoration-thickness:.06em}
+a:focus-visible,.entry:focus-visible{outline:2px solid var(--spot); outline-offset:3px; border-radius:2px}
+
+.tag{
+  font-family:var(--mono); font-weight:500; font-size:.6875rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--spot-text);
+}
+.mono{font-family:var(--mono); font-size:.8125rem; font-variant-numeric:tabular-nums}
+
+/* ───────────────────────── masthead ────────────────────────── */
+.masthead{
+  width:min(100% - 3rem,var(--max)); margin-inline:auto;
+  display:flex; flex-wrap:wrap; gap:.75rem 1.5rem;
+  align-items:baseline; justify-content:space-between;
+  padding-block:1.4rem; border-bottom:1px solid var(--rule);
+}
+/* ─────────────────────────── the mark ─────────────────────────── */
+/* the article is metadata about the noun, so it is set in the metadata face */
+.wordmark{
+  display:inline-flex; align-items:baseline; gap:.3em;
+  font-family:var(--display); font-weight:700; font-size:1rem; letter-spacing:-.02em;
+}
+.wordmark .art{
+  font-family:var(--mono); font-weight:400; font-size:.66em;
+  letter-spacing:.04em; color:var(--ink-3);
+}
+.locks{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.lock{
+  background:var(--ground-2); padding:1.4rem 1.3rem;
+  display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.8rem 1.5rem;
+}
+.lock .wordmark{font-size:1.9rem}
+.lock.stacked .wordmark{flex-direction:column; align-items:flex-start; gap:.1em; line-height:1}
+.lock.stacked .art{margin-left:.12em}
+.lock.plain .art{font-family:var(--display); font-weight:700; font-size:.62em; letter-spacing:-.02em}
+.lock .note{font-family:var(--mono); font-size:.6875rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
+
+.monogram{width:4.5rem; height:auto; color:var(--ink); flex:none}
+.monogram.sm{width:1.75rem}
+.monogram path,.monogram ellipse{
+  fill:none; stroke:currentColor; stroke-width:7;
+  stroke-linecap:butt; stroke-linejoin:round;
+}
+.markrow{display:flex; align-items:center; gap:2.2rem; flex-wrap:wrap}
+.masthead nav{display:flex; flex-wrap:wrap; gap:1.1rem}
+.masthead nav a{
+  font-family:var(--mono); font-size:.6875rem; font-weight:500;
+  letter-spacing:.13em; text-transform:uppercase;
+  color:var(--ink-3); text-decoration:none;
+}
+.masthead nav a:hover{color:var(--ink)}
+
+.hero{padding-block:4.5rem 3.5rem}
+.hero h1{max-width:16ch}
+.hero .lede{margin-top:1.6rem}
+
+/* ─────────────── the signature: the record strip ─────────────── */
+@property --t{syntax:"<number>"; inherits:true; initial-value:1}
+/* --t draws the strip once, on arrival; --pulse then travels it, on a loop.
+   The initial value is the rest value: every node passed, nothing lit. */
+@property --pulse{syntax:"<number>"; inherits:true; initial-value:.7}
+
+.record{
+  --t:1;
+  --pulse:.7;
+  --stagger:.11; /* pulse units between one node and the next */
+  --dwell:.1;    /* how long a node stays at full brightness */
+  --edge:16;     /* rise and fall steepness */
+  list-style:none; margin:0; padding:0;
+  display:grid; grid-auto-flow:column; grid-auto-columns:1fr;
+  align-items:start;
+}
+.record li{
+  --p:clamp(0,(var(--t) - var(--i) * .15) * 4,1);
+  /* a trapezoid: the leading edge minus a delayed copy of itself, gated by --p
+     so the pulse never runs ahead of the draw */
+  --q:calc((
+      clamp(0,(var(--pulse) - var(--i) * var(--stagger)) * var(--edge),1) -
+      clamp(0,(var(--pulse) - var(--i) * var(--stagger) - var(--dwell)) * var(--edge),1)
+    ) * var(--p));
+  position:relative; padding-top:1.35rem; padding-right:.75rem;
+  opacity:calc(.12 + .88 * var(--p));
+}
+/* the hairline runs from this node back to the previous one */
+.record li + li::before{
+  content:""; position:absolute; top:.36rem; right:100%; width:100%; height:1px;
+  background:var(--rule-2);
+  background:color-mix(in oklab, var(--spot) calc(var(--q) * 85%), var(--rule-2));
+  transform:scaleX(var(--p)); transform-origin:left;
+}
+.record .node{
+  position:absolute; top:0; left:0; width:9px; height:9px; border-radius:50%;
+  border:1.5px solid var(--spot); background:var(--ground);
+  transform:scale(calc(1 + .55 * var(--q)));
+}
+/* the halo rides the node's own transform, so it swells with it */
+.record .node::after{
+  content:""; position:absolute; inset:-4px; border-radius:50%;
+  border:1px solid var(--spot); opacity:calc(var(--q) * .45);
+}
+.record li.closes .node::after{inset:-7px}
+.record li:first-child .node{background:var(--spot)}
+.record li.closes .node{
+  background:var(--spot);
+  box-shadow:0 0 0 3px var(--ground),0 0 0 4.5px var(--spot);
+}
+.record .step{
+  display:block; font-family:var(--mono); font-weight:500; font-size:.8125rem;
+  letter-spacing:.02em; color:var(--ink);
+}
+.record .detail{
+  display:block; font-size:.75rem; line-height:1.45; color:var(--ink-3); margin-top:.15rem;
+}
+.record li.closes .step{color:var(--spot-text)}
+
+@media (prefers-reduced-motion:no-preference){
+  /* the loop is on a clock, not a timeline, so it runs even where view() does not */
+  .record{animation:pulse 6s linear infinite}
+
+  @supports (animation-timeline:view()){
+    .record{
+      animation:draw linear both, pulse 6s linear infinite;
+      animation-timeline:view(), auto;
+      animation-range:entry 35% cover 65%, normal;
+    }
+  }
+}
+@keyframes draw{from{--t:0} to{--t:1}}
+/* travel, then rest — the sweep ends past the last node, so the jump back to
+   the start of the cycle happens with nothing lit */
+@keyframes pulse{0%{--pulse:0} 46%{--pulse:.7} 100%{--pulse:.7}}
+
+@media (max-width:38rem){
+  .record{grid-auto-flow:row; grid-auto-columns:auto; gap:.1rem}
+  .record li{padding:0 0 .95rem 1.4rem}
+  .record li + li::before{
+    top:0; left:4px; right:auto; width:1px; height:100%;
+    transform:scaleY(var(--p)); transform-origin:top;
+  }
+  .record .node{top:.3rem}
+}
+
+/* ─────────────────────── swatches & data ─────────────────────── */
+.grid{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.grid.three{grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr))}
+.cell{background:var(--ground-2); padding:1rem 1.1rem}
+.cell h3{margin-bottom:.3rem}
+.cell p{font-size:.85rem; color:var(--ink-2)}
+
+.chip{height:2.75rem; border:1px solid var(--rule-2); margin-bottom:.7rem}
+.vals{font-family:var(--mono); font-size:.75rem; color:var(--ink-3); margin-top:.55rem; display:flex; gap:.75rem}
+
+table{width:100%; border-collapse:collapse; font-size:.875rem}
+.table-wrap{overflow-x:auto; border:1px solid var(--rule); background:var(--ground-2)}
+th,td{text-align:left; padding:.62rem .9rem; border-bottom:1px solid var(--rule); vertical-align:top}
+tr:last-child th,tr:last-child td{border-bottom:0}
+th{
+  font-family:var(--mono); font-weight:500; font-size:.6875rem;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3);
+  white-space:nowrap; width:1%;
+}
+td{color:var(--ink)}
+
+pre{
+  margin:0; overflow-x:auto; background:var(--ground-3);
+  border:1px solid var(--rule); padding:1rem 1.1rem;
+  font-family:var(--mono); font-size:.78125rem; line-height:1.7; color:var(--ink-2);
+}
+pre b{color:var(--spot-text); font-weight:500}
+pre i{color:var(--ink-3); font-style:normal}
+
+/* ───────────────────────── materials ───────────────────────── */
+.mat{height:7rem; border:1px solid var(--rule); position:relative; background:var(--ground-2)}
+/* textures are masks, not images, so they tint from --mat in both themes */
+.mat::after{
+  content:""; position:absolute; inset:0; opacity:var(--mat-a);
+  background-color:var(--mat);
+  -webkit-mask-image:var(--tex); mask-image:var(--tex);
+  -webkit-mask-size:var(--tex-size,auto); mask-size:var(--tex-size,auto);
+  -webkit-mask-repeat:repeat; mask-repeat:repeat;
+}
+.mat-collage{--tex:repeating-conic-gradient(#000 0 25%,transparent 0 50%); --tex-size:18px 18px}
+.mat-steward{--tex:repeating-linear-gradient(180deg,#000 0 1px,transparent 1px 26px)}
+/* staff, with editorial accidentals floating above it — the ficta convention */
+.mat-ficta{
+  --tex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='64'%3E%3Cg stroke='%23000' stroke-width='1' fill='none'%3E%3Cpath d='M0 26.5h120M0 34.5h120M0 42.5h120M0 50.5h120M0 58.5h120'/%3E%3Cpath d='M22 8v14M27 6v14M19 13h11M19 18h11'/%3E%3Cpath d='M80 9v14M85 7v14M77 14h11M77 19h11'/%3E%3C/g%3E%3C/svg%3E");
+  --tex-size:120px 64px;
+}
+.mat span{
+  position:absolute; left:.75rem; bottom:.6rem; z-index:1;
+  font-family:var(--mono); font-size:.6875rem; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink-3);
+}
+
+/* ──────────────────── the index plane (specimen) ──────────────────── */
+.plane{border:1px solid var(--rule); background:var(--ground-2)}
+.entry{
+  display:grid; grid-template-columns:1.5rem 1fr auto; align-items:baseline;
+  gap:.4rem 1rem; padding:1.15rem 1.2rem;
+  border-top:1px solid var(--rule); text-decoration:none; color:inherit;
+  transition:background 140ms ease;
+}
+.entry:first-child{border-top:0}
+.entry:hover{background:var(--ground-3)}
+.entry .swatch{width:.7rem; height:.7rem; background:var(--spot); align-self:center}
+.entry .name{font-family:var(--display); font-weight:600; font-size:1.3rem; letter-spacing:-.02em}
+.entry .state{
+  font-family:var(--mono); font-size:.6875rem; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink-3); white-space:nowrap;
+}
+.entry .say{grid-column:2/-1; font-size:.9rem; color:var(--ink-2); margin:0; max-width:36rem}
+.entry .fingerprint{grid-column:2/-1; display:flex; align-items:center; gap:0; margin-top:.55rem}
+.entry .fingerprint i{width:6px; height:6px; border-radius:50%; border:1.25px solid var(--spot); flex:none}
+.entry .fingerprint i:first-child,.entry .fingerprint i:last-child{background:var(--spot)}
+.entry .fingerprint u{width:18px; height:1px; background:var(--rule-2); flex:none}
+
+/* ─────────────────────── page anatomy ─────────────────────── */
+.anatomy{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.slot{
+  background:var(--ground-2); padding:.8rem 1rem;
+  display:grid; grid-template-columns:8.5rem 1fr auto; gap:.4rem 1rem; align-items:baseline;
+}
+.slot code{
+  font-family:var(--mono); font-size:.75rem; font-weight:500;
+  color:var(--spot-text); letter-spacing:.02em;
+}
+.slot p{font-size:.85rem; color:var(--ink-2); margin:0}
+.slot em{
+  font-family:var(--mono); font-style:normal; font-size:.6875rem;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); white-space:nowrap;
+}
+
+/* ─────────────────────── per-app scopes ─────────────────────── */
+.is-collage{--spot:var(--collage); --spot-text:var(--collage-text)}
+.is-steward{--spot:var(--steward); --spot-text:var(--steward-text)}
+.is-ficta{--spot:var(--ficta);   --spot-text:var(--ficta-text)}
+
+/* ───────────────────────── impression ───────────────────────── */
+.impression{
+  width:min(100% - 3rem,var(--max)); margin-inline:auto;
+  padding-block:2.5rem 4rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:var(--rail) minmax(0,1fr); column-gap:var(--gutter);
+  font-family:var(--mono); font-size:.75rem; line-height:1.9; color:var(--ink-3);
+}
+.impression dl{display:grid; grid-template-columns:7rem 1fr; margin:0; max-width:44rem}
+.impression dt{color:var(--ink-3)}
+.impression dd{margin:0; color:var(--ink-2)}
+
+@media (max-width:52rem){
+  .band,.impression{grid-template-columns:1fr; row-gap:1.1rem}
+  .band > .rail,.band > .field,.impression > *{grid-column:1}
+  .rail{padding-top:0}
+  .rail b{display:inline; margin-right:.75rem}
+  .rail span{display:inline}
+  .slot{grid-template-columns:1fr; gap:.15rem}
+  .slot em{justify-self:start}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important; transition:none !important}
+}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <span class="wordmark"><span class="art">the</span>Multiple</span>
+  <nav>
+    <a href="#plane">Plane</a>
+    <a href="#ink">Ink</a>
+    <a href="#type">Type</a>
+    <a href="#mark">Mark</a>
+    <a href="#record">Record</a>
+    <a href="#pages">Pages</a>
+    <a href="#build">Build</a>
+  </nav>
+</header>
+
+<section class="band" style="border-top:0">
+  <div class="rail"><b>Ed. 01</b><span>August 2026</span></div>
+  <div class="field hero">
+    <p class="tag">Design system</p>
+    <h1>One plane. Three plateaus. One record.</h1>
+    <p class="lede">A durable visual system for <strong>themultiple.net</strong> — a shared graphite substrate that never changes, one spot ink per app, and a single component that makes three unrelated products visibly one family.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="rail"><b>Thesis</b><span>Why this</span></div>
+  <div class="field">
+    <h2>They are all record-keepers.</h2>
+    <p>Collage keeps an immutable pipeline of edit steps. Steward's core invariant is that a commitment <strong>must end in a recorded outcome</strong>, with provenance. Ficta separates Claim from Fact and keeps a revisable history of how a theory was reached.</p>
+    <p>Three products with nothing in common at the category level, and one structure in common at the model level: <strong>an ordered chain that closes</strong>. That is what the system is built on. Everything else is quiet around it.</p>
+    <p class="small">The name carries two readings and the system uses both. From Deleuze and Guattari, a multiplicity has no central term — so the index has no hero product and no ranking, just a plane of equal entries. From printing, a multiple is an edition — same plates, same stock, different ink per impression.</p>
+  </div>
+</section>
+
+<section class="band" id="plane">
+  <div class="rail"><b>The plane</b><span>Substrate</span></div>
+  <div class="field">
+    <h2>Graphite, ruled with hairlines.</h2>
+    <p>Dark is canonical; light is derived from the same token names. The neutrals carry a slight cool bias so they read as chosen rather than inherited — and pointedly not cream, which is where both of the current pages ended up.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Token</th><td class="mono">dark</td><td class="mono">light</td><td>Role</td></tr>
+        <tr><th>ground</th><td class="mono">#0E1013</td><td class="mono">#F1F2F4</td><td>The plane. Every page sits on it.</td></tr>
+        <tr><th>ground-2</th><td class="mono">#14171C</td><td class="mono">#FFFFFF</td><td>Panels, tables, entries.</td></tr>
+        <tr><th>ground-3</th><td class="mono">#0A0B0E</td><td class="mono">#E6E8EB</td><td>Sunk: code, hover.</td></tr>
+        <tr><th>rule</th><td class="mono">#21262D</td><td class="mono">#DBDFE4</td><td>Hairline. Does the work borders and shadows usually do.</td></tr>
+        <tr><th>rule-2</th><td class="mono">#333B44</td><td class="mono">#BCC3CB</td><td>Connectors, emphasis rules.</td></tr>
+        <tr><th>ink</th><td class="mono">#E9ECF0</td><td class="mono">#14171C</td><td>Primary text.</td></tr>
+        <tr><th>ink-2</th><td class="mono">#99A2AC</td><td class="mono">#4D555E</td><td>Secondary prose.</td></tr>
+        <tr><th>ink-3</th><td class="mono">#6A737D</td><td class="mono">#757D86</td><td>Labels, metadata, rail.</td></tr>
+      </table>
+    </div>
+    <p class="small">No shadows, no gradient washes, no large radii. Depth comes from one hairline and one tone step. Radius is 0 on rules and panels, 2px on focus rings — the 1.1rem rounds on the current site are the SaaS default the system is leaving.</p>
+  </div>
+</section>
+
+<section class="band" id="ink">
+  <div class="rail"><b>Ink</b><span>One per app</span></div>
+  <div class="field">
+    <h2>The plane has no colour of its own.</h2>
+    <p>The index is neutral. Colour belongs to the apps, never to the parent — that is the <span class="mono">n−1</span> rule made operational, and it also means adding a fourth app costs one hex pair, not a redesign.</p>
+    <div class="grid three">
+      <div class="cell is-collage">
+        <div class="chip" style="background:var(--spot)"></div>
+        <h3 style="color:var(--spot-text)">Collage</h3>
+        <p>Rose-magenta. The colour of a selection overlay in every compositor, and a process primary on any press.</p>
+        <div class="vals"><span>#FF4F87</span><span>#D4185B</span></div>
+      </div>
+      <div class="cell is-steward">
+        <div class="chip" style="background:var(--spot)"></div>
+        <h3 style="color:var(--spot-text)">Steward</h3>
+        <p>Amber. Semantically exact — Steward's entire question is whether something deserves your attention now.</p>
+        <div class="vals"><span>#F5A63C</span><span>#B36A00</span></div>
+      </div>
+      <div class="cell is-ficta">
+        <div class="chip" style="background:var(--spot)"></div>
+        <h3 style="color:var(--spot-text)">Ficta</h3>
+        <p>Violet. Cool and analytic against two warms, for the product about interpretation and revisable judgement.</p>
+        <div class="vals"><span>#8A72FF</span><span>#5433D6</span></div>
+      </div>
+    </div>
+    <p class="small">Each ink ships as a pair: a fill value for markers and swatches, and a shifted text value that clears 4.5:1 on its own ground. Amber moves furthest between modes because amber always does — on light it is only ever a fill, never a text colour.</p>
+  </div>
+</section>
+
+<section class="band" id="type">
+  <div class="rail"><b>Type</b><span>131 KB total</span></div>
+  <div class="field">
+    <h2>Bricolage, Inter, Plex Mono.</h2>
+    <p><strong>Bricolage Grotesque</strong> for display, and the name is not a coincidence — bricolage is the term Deleuze and Guattari take from Lévi-Strauss for assembling from what is at hand, which is precisely what all three products do. It is a variable grotesque with real quirk: wide, blunt, slightly engineered. Used only above 28px.</p>
+    <p><strong>Inter</strong> for body, deliberately without ego, and the same face tine-webui already runs. <strong>IBM Plex Mono</strong> for every label, status, rail and record step — it reads as a document face rather than a code face, which suits a strip that is a record and not a terminal.</p>
+    <div class="grid three">
+      <div class="cell"><div style="font-family:var(--display);font-weight:700;font-size:2.4rem;line-height:1;letter-spacing:-.035em">Aa</div><div class="vals"><span>Bricolage · 40 KB</span></div></div>
+      <div class="cell"><div style="font-family:var(--body);font-weight:600;font-size:2.4rem;line-height:1;letter-spacing:-.02em">Aa</div><div class="vals"><span>Inter · 71 KB</span></div></div>
+      <div class="cell"><div style="font-family:var(--mono);font-weight:500;font-size:2.2rem;line-height:1.1">Aa</div><div class="vals"><span>Plex Mono · 20 KB</span></div></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>display-xl</th><td>Bricolage 700 · clamp(2.4rem, 5.5vw, 4rem) · lh .98 · track −.035em</td></tr>
+        <tr><th>display-l</th><td>Bricolage 600 · clamp(1.7rem, 3.4vw, 2.35rem) · lh 1.06 · track −.028em</td></tr>
+        <tr><th>display-m</th><td>Bricolage 600 · 1.18rem · lh 1.2</td></tr>
+        <tr><th>lede</th><td>Inter 400 · 1.1rem · ink-2 · max 38rem</td></tr>
+        <tr><th>body</th><td>Inter 400 · 1rem · lh 1.65 · max 42rem (≈65ch)</td></tr>
+        <tr><th>label</th><td>Plex Mono 500 · .6875rem · uppercase · track .14em · ink-3</td></tr>
+        <tr><th>data</th><td>Plex Mono 400 · .8125rem · tabular-nums</td></tr>
+      </table>
+    </div>
+    <p class="small">All four files are latin-subset woff2, committed to the repo and served from your own origin. No CDN, no build step, no third-party request — which matters, because Collage's landing page is selling exactly that promise.</p>
+  </div>
+</section>
+
+<section class="band" id="mark">
+  <div class="rail"><b>Mark</b><span>Wordmark · monogram</span></div>
+  <div class="field">
+    <h2>the Multiple, never The Multiple.</h2>
+    <p>Lowercase article, everywhere — including at the start of a sentence and in the browser title bar. The system already demotes the parent: the plane carries no ink of its own and the index refuses to rank its entries. Lowercasing the article is that same move applied to the name. It is an article, not a title.</p>
+    <p>The treatment then follows a rule the system already has. Plex Mono carries labels and metadata everywhere else on the site, and grammatically an article <em>is</em> metadata about a noun — so <span class="mono">the</span> is set in mono, and <strong>Multiple</strong> in Bricolage at full weight. The wordmark obeys an existing rule instead of inventing a special case, which is the thing that makes a wordmark survivable.</p>
+    <div class="locks">
+      <div class="lock">
+        <span class="wordmark"><span class="art">the</span>Multiple</span>
+        <span class="note">A · mono article — recommended</span>
+      </div>
+      <div class="lock plain">
+        <span class="wordmark"><span class="art">the</span>Multiple</span>
+        <span class="note">B · all Bricolage, article recedes</span>
+      </div>
+      <div class="lock stacked">
+        <span class="wordmark"><span class="art">the</span>Multiple</span>
+        <span class="note">C · stacked masthead</span>
+      </div>
+    </div>
+    <p class="small">A is the working default and the one in this page's masthead. C is worth keeping in reserve for a favicon-adjacent or vertical context — it is the same two parts, just re-broken.</p>
+
+    <h3 style="margin-top:2.2rem">The monogram comes back</h3>
+    <div class="markrow" style="margin-top:1.2rem">
+      <svg class="monogram" viewBox="8 0 78 100" role="img" aria-label="Sigma and phi entangled, the monogram of the Multiple">
+        <path d="M74 16H18l24 34-24 34h56"/>
+        <ellipse cx="60" cy="50" rx="15" ry="21"/>
+        <path d="M60 6v5"/>
+        <path d="M60 21v73"/>
+      </svg>
+      <svg class="monogram sm" viewBox="8 0 78 100" aria-hidden="true">
+        <path d="M74 16H18l24 34-24 34h56"/>
+        <ellipse cx="60" cy="50" rx="15" ry="21"/>
+        <path d="M60 6v5"/>
+        <path d="M60 21v73"/>
+      </svg>
+      <span class="wordmark" style="font-size:1.9rem"><span class="art">the</span>Multiple</span>
+    </div>
+    <p style="margin-top:1.6rem">A capital sigma entangled with a lowercase phi is already saying what the wordmark says, which is why it should come back rather than be replaced.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Same shape</th><td>A subordinate lowercase form entangled with a dominant capital. Σφ and <span class="mono">the Multiple</span> are the same structure twice — once in Greek, once in English. Nobody needs it explained; it just makes the two marks feel like one system.</td></tr>
+        <tr><th>φ is the point</th><td>Golden ratio, Euler's totient, magnetic flux, phase angle, potential, work function, the wave function. One glyph whose meaning is set entirely by which field you happen to be standing in. There is no better single character for a collection of unrelated tools that share a plane and nothing else.</td></tr>
+        <tr><th>Σ sums</th><td>Π is the product operator; Σ is the sum — and sum is the stronger reading. The apps add up to a body of work; they do not compose into a larger product. No dependency, no hierarchy, no roadmap where one unlocks another.</td></tr>
+        <tr><th>Neither wins</th><td>In the drawing the sigma's upper bar passes in front of the phi's stem, and the phi's stem passes in front of the sigma's lower bar. A weave, not a stack. The refusal of a central term, at 78 by 100 units.</td></tr>
+      </table>
+    </div>
+    <div class="table-wrap" style="margin-top:1.1rem">
+      <table>
+        <tr><th>Masthead</th><td>Logotype. Monogram only if the header is taller than one line.</td></tr>
+        <tr><th>Favicon · avatar</th><td>Monogram alone. It is the only form that survives 32px.</td></tr>
+        <tr><th>Colophon</th><td>Logotype, in the impression block.</td></tr>
+        <tr><th>Never</th><td>The two locked side by side below 2rem. At that size the mark is one or the other.</td></tr>
+      </table>
+    </div>
+    <p class="small">The monogram is drawn as four SVG paths rather than set as text, which is deliberate: the shipped woff2 files are latin-subset and carry no Greek. Anything that renders Σ or φ as live text needs a Greek subset added, so keep the mark as geometry and the problem never arises.</p>
+  </div>
+</section>
+
+<section class="band" id="record">
+  <div class="rail"><b>Signature</b><span>The record strip</span></div>
+  <div class="field">
+    <h2>One component. Three truths.</h2>
+    <p>Every app page carries a strip of that product's <strong>actual</strong> chain, taken from its own specification. The order encodes something real, so the sequence is information rather than decoration — and the terminal node is drawn twice over, because in all three products the record closes.</p>
+
+    <div class="is-collage">
+      <p class="tag" style="margin-bottom:.9rem">Collage · pipeline</p>
+      <ol class="record">
+        <li style="--i:0"><span class="node"></span><span class="step">base</span><span class="detail">canvas set · 4096px cap</span></li>
+        <li style="--i:1"><span class="node"></span><span class="step">layer</span><span class="detail">imported, ordered</span></li>
+        <li style="--i:2"><span class="node"></span><span class="step">text</span><span class="detail">styled, positioned</span></li>
+        <li style="--i:3"><span class="node"></span><span class="step">transform</span><span class="detail">move · scale · rotate · crop</span></li>
+        <li style="--i:4" class="closes"><span class="node"></span><span class="step">flatten</span><span class="detail">PNG, alpha preserved</span></li>
+      </ol>
+    </div>
+
+    <div class="is-steward" style="margin-top:2.4rem">
+      <p class="tag" style="margin-bottom:.9rem">Steward · the loop</p>
+      <ol class="record">
+        <li style="--i:0"><span class="node"></span><span class="step">observe</span><span class="detail">a possible commitment</span></li>
+        <li style="--i:1"><span class="node"></span><span class="step">establish</span><span class="detail">what completion means</span></li>
+        <li style="--i:2"><span class="node"></span><span class="step">decide</span><span class="detail">is attention useful yet</span></li>
+        <li style="--i:3"><span class="node"></span><span class="step">ask</span><span class="detail">one small decision</span></li>
+        <li style="--i:4" class="closes"><span class="node"></span><span class="step">record</span><span class="detail">an outcome, never silence</span></li>
+      </ol>
+    </div>
+
+    <div class="is-ficta" style="margin-top:2.4rem">
+      <p class="tag" style="margin-bottom:.9rem">Ficta · musical truth maintenance</p>
+      <ol class="record">
+        <li style="--i:0"><span class="node"></span><span class="step">source</span><span class="detail">audio · notation · heterogeneous</span></li>
+        <li style="--i:1"><span class="node"></span><span class="step">claim</span><span class="detail">asserted, not yet fact</span></li>
+        <li style="--i:2"><span class="node"></span><span class="step">judgement</span><span class="detail">the human call</span></li>
+        <li style="--i:3"><span class="node"></span><span class="step">theory</span><span class="detail">coherent, revisable</span></li>
+        <li style="--i:4" class="closes"><span class="node"></span><span class="step">projection</span><span class="detail">rendered, with provenance</span></li>
+      </ol>
+    </div>
+
+    <p class="small" style="margin-top:2rem">Two <span class="mono">@property</span> numbers on the list, which the nodes read to stagger themselves. <span class="mono">--t</span> draws the strip left to right as it enters the viewport, on a scroll timeline. <span class="mono">--pulse</span> then travels it every six seconds, on a clock: each node swells and haloes in turn and the hairline behind it takes the spot ink, so the chain reads as something traversed rather than something printed. The sweep takes under three seconds and rests for the remainder, and it ends past the last node, so the return to the start of the cycle happens with nothing lit. No JavaScript. Where <span class="mono">animation-timeline</span> is unsupported the strip renders fully drawn and still pulses; <span class="mono">prefers-reduced-motion</span> parks both at rest. Below 38rem it rotates to vertical, where it stops being a pipeline and becomes a ledger, and the pulse travels down it. This is the only motion in the system.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="rail"><b>Material</b><span>Per app</span></div>
+  <div class="field">
+    <h2>Each plateau has its own atmosphere.</h2>
+    <p>Behind the identity block on each app page sits a CSS-drawn texture of the material that product actually handles — at 4–7% opacity, felt rather than seen. It is the second and last thing that varies per app.</p>
+    <div class="grid three">
+      <div class="cell" style="padding:0"><div class="mat mat-collage"><span>Collage · alpha grid</span></div></div>
+      <div class="cell" style="padding:0"><div class="mat mat-steward"><span>Steward · ledger rules</span></div></div>
+      <div class="cell" style="padding:0"><div class="mat mat-ficta"><span>Ficta · above the staff</span></div></div>
+    </div>
+    <p class="small">Two gradients and one 380-byte inline SVG, no image assets. Ficta's texture is not a bare staff — it is a staff with editorial accidentals floating above it, which is the notational convention for marking an inference as an inference. Claim sits above Fact, literally. All three are masks tinted from <span class="mono">--mat</span>, so they invert correctly with the theme.</p>
+  </div>
+</section>
+
+<section class="band" id="pages">
+  <div class="rail"><b>Index</b><span>The plane</span></div>
+  <div class="field">
+    <h2>No hero. No ranking. Any entry point.</h2>
+    <p>The index is a flat run of ruled entries rather than a grid of cards. Each one ends in a miniature of its own record strip — a fingerprint that shows the family resemblance at a glance without implying a sequence between the apps.</p>
+    <div class="plane">
+      <a class="entry is-collage" href="#pages">
+        <span class="swatch"></span>
+        <span class="name">Collage</span>
+        <span class="state">iPhone · iPad — shipping</span>
+        <p class="say">Layered images, built on device. Nothing leaves it.</p>
+        <span class="fingerprint" aria-hidden="true"><i></i><u></u><i></i><u></u><i></i><u></u><i></i><u></u><i></i></span>
+      </a>
+      <a class="entry is-steward" href="#pages">
+        <span class="swatch"></span>
+        <span class="name">Steward</span>
+        <span class="state">iPhone · Mac — building</span>
+        <p class="say">Commitments that end in a recorded outcome, not silence.</p>
+        <span class="fingerprint" aria-hidden="true"><i></i><u></u><i></i><u></u><i></i><u></u><i></i><u></u><i></i></span>
+      </a>
+      <a class="entry is-ficta" href="#pages">
+        <span class="swatch"></span>
+        <span class="name">Ficta</span>
+        <span class="state">Desktop — in the open</span>
+        <p class="say">Musical truth maintenance. Sources reconciled into a theory you can defend and revise.</p>
+        <span class="fingerprint" aria-hidden="true"><i></i><u></u><i></i><u></u><i></i><u></u><i></i><u></u><i></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="rail"><b>Template</b><span>One shape</span></div>
+  <div class="field">
+    <h2>Blocks render only when they are true.</h2>
+    <p>Every app page is the same eight slots in the same order. A page with nothing to install simply has no install block — the shape does not change to compensate, and nothing is invented to fill the gap.</p>
+    <div class="anatomy">
+      <div class="slot"><code>masthead</code><p>Wordmark left, app nav right. Current item underlined in the app's ink.</p><em>always</em></div>
+      <div class="slot"><code>identity</code><p>Name in Bricolage, one sentence, status. Material texture behind.</p><em>always</em></div>
+      <div class="slot"><code>record</code><p>That product's real chain. The signature.</p><em>always</em></div>
+      <div class="slot"><code>facts</code><p>Hairline grid: platform, storage, network, account, export, price.</p><em>always</em></div>
+      <div class="slot"><code>install</code><p>TestFlight and sideload paths, with the seven-day signing caveat.</p><em>Collage only</em></div>
+      <div class="slot"><code>position</code><p>What the product refuses to do, stated plainly.</p><em>Steward only</em></div>
+      <div class="slot"><code>log</code><p>Dated build entries drawn from the roadmap.</p><em>Ficta only</em></div>
+      <div class="slot"><code>impression</code><p>Colophon: how the page was made, what the app stores and sends.</p><em>always</em></div>
+    </div>
+  </div>
+</section>
+
+<section class="band is-collage">
+  <div class="rail"><b>Collage</b><span>Shipping</span></div>
+  <div class="field">
+    <h2 style="color:var(--spot-text)">The one with something to download.</h2>
+    <p>The only page with a real install CTA, and the only page where the facts table is doing sales work. Every row is a claim you can check in the source.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Platform</th><td>iPhone · iPad</td></tr>
+        <tr><th>Storage</th><td>On device</td></tr>
+        <tr><th>Network</th><td>None</td></tr>
+        <tr><th>Account</th><td>Not required</td></tr>
+        <tr><th>Export</th><td>Flattened PNG, alpha preserved</td></tr>
+        <tr><th>Price</th><td>Free · open source</td></tr>
+      </table>
+    </div>
+    <p class="small">Guide, support and privacy stay where they are as sibling pages under <span class="mono">/collage/</span>, re-set in the system. The guide's step tables become the same hairline grid as the facts table — one table style across the whole site.</p>
+  </div>
+</section>
+
+<section class="band is-steward">
+  <div class="rail"><b>Steward</b><span>Building</span></div>
+  <div class="field">
+    <h2 style="color:var(--spot-text)">The one that isn't selling anything.</h2>
+    <p>No install block, no waitlist, no screenshots of software that isn't finished. The page states what Steward is and — the more interesting half — what it refuses to become. Your spec already writes this section; it is the non-goals list.</p>
+    <pre><b>REFUSES</b>
+  <i>·</i> autonomous life planning
+  <i>·</i> chat history as the source of truth
+  <i>·</i> inferring commitments from private services
+  <i>·</i> behavioural scoring or gamification
+  <i>·</i> letting an inferred commitment become an accepted one silently</pre>
+    <p class="small">A page that lists what a product won't do is rarer and more convincing than one listing features, and it costs nothing to keep true.</p>
+  </div>
+</section>
+
+<section class="band is-ficta">
+  <div class="rail"><b>Ficta</b><span>In the open</span></div>
+  <div class="field">
+    <h2 style="color:var(--spot-text)">The one that is a record of itself.</h2>
+    <p>Not shipping, so the page is a build log rather than a pitch — dated entries in the rail, content in the measure, drawn from the roadmap you already maintain. The site's own structure becomes the honest record it is arguing for.</p>
+
+    <h3 style="margin-top:1.8rem">On the name</h3>
+    <p><strong>Ficta.</strong> In music before roughly 1600, sources routinely omit accidentals the performer is expected to supply. <em>Musica recta</em> is the given gamut — what the source actually says. <em>Musica ficta</em> is what informed judgement supplies on top of it. Editors print ficta <strong>above the staff</strong>, never inline, so a reader can always separate the source from the inference. Change one ficta decision and the consequences propagate through the passage, which is why musicologists argue it as a constraint problem rather than a matter of taste.</p>
+    <p>That is the domain model in a single medieval term: Fact and Claim, Judgement, provenance, and a reading that stays revisable because the reasoning was never thrown away. Truth maintenance, four centuries early.</p>
+    <p>It also disposes of <strong>Urtext</strong>, the otherwise obvious musical candidate. An Urtext edition is arborescent — it hunts the one originary text that every variant descends from, a root with filiation. Ficta is rhizomatic: the source underdetermines, readings multiply laterally, any reading connects to any other, and the work is to keep the justifications alive rather than collapse them into an origin. The engine maintains truth precisely by refusing a single root.</p>
+    <p>The objection that it sounds like <em>fiction</em> inverts on inspection. <em>Ficta</em> means feigned, and the entire discipline exists so that a feigned note can never quietly pass itself off as a sourced one.</p>
+    <p class="small">Runners-up were Recta (names the Fact side, undersells the inference), Emendation (active, but shared with textual scholarship) and Concordance (musicologically exact, dry). Ossia was the one worth mourning — an ossia is a variant reading printed on a small staff above the main one — but it belongs to ossia score / libossia. Neume is taken too. Ficta came up clear; run the domain, crates.io and npm before you commit.</p>
+  </div>
+</section>
+
+<section class="band" id="build">
+  <div class="rail"><b>Build</b><span>Order of work</span></div>
+  <div class="field">
+    <h2>What this costs to ship.</h2>
+    <p>The repo already has the right architecture — hand-written HTML, one stylesheet, no build. This replaces <span class="mono">styles.css</span> and adds a fonts directory. Nothing else about how the site is published changes.</p>
+    <pre>themultiple.net/
+  <b>fonts/</b>            <i>4 woff2, 131 KB, committed</i>
+  <b>styles.css</b>        <i>tokens · plane · record · template</i>
+  index.html          <i>the plane</i>
+  collage/            <i>index · guide · support · privacy</i>
+  <b>steward/</b>          <i>index</i>
+  <b>ficta/</b>            <i>index · log</i></pre>
+    <p>Order I would take it in: token layer and fonts first, then the record strip as a standalone component, then re-set the Collage pages you already have — that proves the system against real content before either new app page exists.</p>
+  </div>
+</section>
+
+<footer class="impression">
+  <div class="rail"><b>Impression</b></div>
+  <dl>
+    <dt>this page</dt><dd>hand-set HTML and CSS · no script · no cookies · no request to anyone else</dd>
+    <dt>set in</dt><dd>Bricolage Grotesque, Inter, IBM Plex Mono — all OFL, all self-hosted</dd>
+    <dt>ground</dt><dd>graphite #0E1013 · derived light #F1F2F4 · one spot ink per plateau</dd>
+    <dt>motion</dt><dd>one scroll-driven strip, reduced-motion respected</dd>
+    <dt>mark</dt><dd>the Multiple — lowercase article, always · Σφ as geometry, never as text</dd>
+    <dt>edition</dt><dd>01 · August 2026 · the Multiple</dd>
+  </dl>
+</footer>
+</body>
+</html>

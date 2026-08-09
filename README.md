@@ -25,12 +25,13 @@ without transformation.
 Edition 01. One stylesheet, `styles.css`, organised in fourteen numbered
 sections from faces and tokens down to motion.
 
-The stylesheet was built from a specimen — every token, face, and component
-rendered against itself, with the reasoning beside each one. That specimen is
-kept outside this repository: everything on this branch is served at
-themultiple.net, and it is working material rather than a page of the site.
-`docs/` is ignored here and `scripts/check-site.sh` steps around it, so the
-specimen can sit there locally without being published. The short version:
+`docs/design-system.html` is the specimen the stylesheet was built from: every
+token, face, and component rendered against itself, with the reasoning beside
+each one. Open it directly in a browser — it is self-contained apart from the
+fonts, which it loads from `/fonts/`. It is in the repository but not on the
+site: `scripts/assemble-site.sh` publishes from a manifest, and `docs/` is not
+on it. `docs/_pulse-test.html` is the harness that verifies the record strip,
+and is unserved for the same reason. The short version:
 
 **The plane.** Dark is canonical; light is derived from the same token names
 under `prefers-color-scheme`. The neutrals carry a slight cool bias. Depth

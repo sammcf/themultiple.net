@@ -47,14 +47,19 @@ done
 
 # ------------------------------------------------------------------ every page
 
-# docs/ is untracked working material — the design system specimen, which carries
-# its own stylesheet and quotes the brand rule verbatim. It is not committed and
-# not served, but it is on disk when this runs locally, so it is checked out of
-# the page rules below. Keep pages of the site out of docs/.
+# docs/ is working material — the design system specimen, which carries its own
+# stylesheet and quotes the brand rule verbatim, and the strip harness. It is in
+# the repository but never published (see scripts/assemble-site.sh), so it is
+# checked out of the page rules below. Keep pages of the site out of docs/.
 pages=()
 while IFS= read -r file; do
   pages+=("$file")
-done < <(find . -name '*.html' -type f -not -path './.git/*' -not -path './docs/*' | sort)
+# _site/ is this same site already assembled; checking it would double every
+# result and mis-see _site/404.html as a page that has lost its canonical URL.
+done < <(find . -name '*.html' -type f \
+           -not -path './.git/*' \
+           -not -path './docs/*' \
+           -not -path './_site/*' | sort)
 
 for file in "${pages[@]}"; do
   rg -qF '<html lang="en">' "$file"     || fail "$file has no English language declaration"
@@ -76,20 +81,23 @@ done
 
 # The article is always lowercase. This is the one brand rule a machine can hold.
 # docs/ is exempt because that is where the rule is written down, capital and all.
-# It is untracked, so rg would skip it anyway; the glob says so out loud.
 if rg -nF 'The Multiple' --glob '*.html' --glob '*.css' --glob '*.xml' --glob '!docs/**' .; then
   fail "the article is always lowercase: write 'the Multiple', never 'The Multiple'"
 fi
 
 # ----------------------------------------------------------- no script, no CDN
 
-if rg -ni -e '<script' -e 'google-analytics' -e 'googletagmanager' -e 'facebook\.net' --glob '*.html' .; then
+# docs/ is exempt: the strip harness is JavaScript by nature, being a measuring
+# instrument. It is never published — scripts/assemble-site.sh is what enforces
+# that, and this ban covers everything that is.
+if rg -ni -e '<script' -e 'google-analytics' -e 'googletagmanager' -e 'facebook\.net' \
+     --glob '*.html' --glob '!docs/**' .; then
   fail "site must remain script-free and analytics-free"
 fi
 
 # Fonts and styles are served from this origin. Nothing is fetched from anyone else.
 if rg -ni -e 'fonts\.googleapis\.com' -e 'fonts\.gstatic\.com' -e 'cdn\.' -e 'unpkg\.com' -e 'jsdelivr' \
-     --glob '*.html' --glob '*.css' .; then
+     --glob '*.html' --glob '*.css' --glob '!docs/**' .; then
   fail "site must not reference a third-party CDN or font host"
 fi
 
