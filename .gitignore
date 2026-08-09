@@ -1,6 +1,5 @@
 .DS_Store
 
-# The design system specimen lives in docs/ and is deliberately not committed.
-# Everything on this branch is served at themultiple.net, and the specimen is
-# working material rather than a page of the site. Keep it local.
-/docs/
+# The assembled site, built by scripts/assemble-site.sh. Never committed —
+# what gets served is decided by that script's manifest, not by what is here.
+_site/

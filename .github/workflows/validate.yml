@@ -1,8 +1,8 @@
 name: Validate static site
 
+# On main the same checks run inside the publish workflow, ahead of the deploy,
+# so this one guards pull requests only.
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 

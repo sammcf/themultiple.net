@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>record strip pulse — gate check</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body class="app-collage">
+<main>
+<div id="rig"></div>
+<pre id="out">running</pre>
+</main>
+<script>
+// Sweep --t (the reveal) against --pulse (the loop) and confirm the pulse never
+// lights a node the draw has not raised. Both are pinned by hand with the
+// animations off, so this measures the formula, not the timing.
+const T = [0, 0.15, 0.25, 0.4, 0.55, 0.7, 0.85, 1];
+const P = [0, 0.11, 0.22, 0.33, 0.44, 0.55, 0.7];
+const BASE = 9;                                    // node width at rest, px
+const draw = (t, i) => Math.min(Math.max((t - i * 0.15) * 4, 0), 1);   // --p
+
+const rig = document.getElementById('rig');
+const strip = () => {
+  const ol = document.createElement('ol');
+  ol.className = 'record';
+  ol.style.animation = 'none';
+  for (let i = 0; i < 5; i++) {
+    const li = document.createElement('li');
+    li.style.setProperty('--i', i);
+    if (i === 4) li.className = 'closes';
+    li.innerHTML = '<span class="node"></span><span class="step">s' + i + '</span>';
+    ol.append(li);
+  }
+  rig.append(ol);
+  return ol;
+};
+
+const lines = [];
+let violations = 0, litTotal = 0;
+for (const t of T) {
+  const row = [];
+  for (const p of P) {
+    const ol = strip();
+    ol.style.setProperty('--t', t);
+    ol.style.setProperty('--pulse', p);
+    void ol.offsetWidth;
+    const nodes = [...ol.querySelectorAll('.node')];
+    let cell = '';
+    nodes.forEach((n, i) => {
+      const w = n.getBoundingClientRect().width;
+      const lit = w > BASE + 0.5;
+      if (lit) litTotal++;
+      // the gate: a node may only be lit to the extent it has been raised
+      if (lit && draw(t, i) === 0) { violations++; cell += 'X'; return; }
+      cell += lit ? (w > BASE + 3 ? '#' : '+') : '.';
+    });
+    row.push(cell);
+    ol.remove();
+  }
+  lines.push('t=' + String(t).padEnd(4) + ' | ' + row.join(' '));
+}
+
+document.getElementById('out').textContent =
+  'RESULT pulse=' + P.join(' ') + '\n' +
+  lines.join('\n') +
+  '\nLIT=' + litTotal + ' VIOLATIONS=' + violations +
+  '\nVERDICT=' + (violations === 0 && litTotal > 0 ? 'PASS' : 'FAIL');
+</script>
+</body>
+</html>
