@@ -71,11 +71,12 @@ done < <(find . -name '*.html' -type f \
            -not -path './blog-src/*' \
            -not -path './docs/*' \
            -not -path './_blog-build/*' \
+           -not -path './vendor/*' \
            -not -path "./$out/*" | sort)
 
 # And nothing that is not the site may reach the output. These are the specific
 # things that live in this repository and must never be published.
-for forbidden in blog-src docs scripts .github .pages.yml Gemfile Gemfile.lock README.md .gitignore; do
+for forbidden in blog-src docs scripts vendor .github .pages.yml Gemfile Gemfile.lock README.md .gitignore; do
   if [[ -e "$out/$forbidden" ]]; then fail "$forbidden must never be served"; fi
 done
 

@@ -69,6 +69,7 @@ done < <(find . -name '*.html' -type f \
            -not -path './blog-src/*' \
            -not -path './docs/*' \
            -not -path './_blog-build/*' \
+           -not -path './vendor/*' \
            -not -path './_site/*' | sort)
 
 for file in "${pages[@]}"; do
@@ -105,7 +106,7 @@ done
 
 # The article is always lowercase. This is the one brand rule a machine can hold.
 # docs/ is exempt because that is where the rule is written down, capital and all.
-if rg -nF 'The Multiple' --glob '*.html' --glob '*.css' --glob '*.xml' --glob '!docs/**' .; then
+if rg -nF 'The Multiple' --glob '*.html' --glob '*.css' --glob '*.xml' --glob '!docs/**' --glob '!vendor/**' .; then
   fail "the article is always lowercase: write 'the Multiple', never 'The Multiple'"
 fi
 
@@ -115,13 +116,13 @@ fi
 # instrument. It is never published — scripts/assemble-site.sh is what enforces
 # that, and this ban covers everything that is.
 if rg -ni -e '<script' -e 'google-analytics' -e 'googletagmanager' -e 'facebook\.net' \
-     --glob '*.html' --glob '!docs/**' .; then
+     --glob '*.html' --glob '!docs/**' --glob '!vendor/**' .; then
   fail "site must remain script-free and analytics-free"
 fi
 
 # Fonts and styles are served from this origin. Nothing is fetched from anyone else.
 if rg -ni -e 'fonts\.googleapis\.com' -e 'fonts\.gstatic\.com' -e 'cdn\.' -e 'unpkg\.com' -e 'jsdelivr' \
-     --glob '*.html' --glob '*.css' --glob '!docs/**' .; then
+     --glob '*.html' --glob '*.css' --glob '!docs/**' --glob '!vendor/**' .; then
   fail "site must not reference a third-party CDN or font host"
 fi
 
