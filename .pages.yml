@@ -1,0 +1,77 @@
+media:
+  - name: post_images
+    label: Post images
+    input: blog-src/blog/media
+    output: /blog/media
+    rename: safe
+    categories: [image]
+
+settings:
+  content:
+    merge: false
+  commit:
+    identity: user
+    templates:
+      create: "blog: publish {filename}"
+      update: "blog: update {filename}"
+      delete: "blog: remove {filename}"
+      rename: "blog: rename {oldFilename} to {newFilename}"
+
+content:
+  - name: posts
+    label: Posts
+    type: collection
+    path: blog-src/_posts
+    format: yaml-frontmatter
+    filename:
+      template: "{date}-{title}.md"
+      field: false
+    exclude: [.gitkeep]
+    view:
+      fields: [title, date, kind, tags]
+      primary: title
+      sort: [date, title]
+      search: [title, tags, body]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: kind
+        label: Kind
+        type: select
+        required: true
+        default: other
+        options:
+          values:
+            - name: music
+              label: Music
+            - name: movie
+              label: Movie
+            - name: book
+              label: Book
+            - name: other
+              label: Other
+      - name: tags
+        label: Tags
+        type: string
+        list: true
+        description: Optional short labels such as rewatch, review, or notes.
+      - name: body
+        label: Body
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          media: post_images
+          rename: safe
+          switcher: true

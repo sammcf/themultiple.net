@@ -14,11 +14,12 @@ containing its landing page and any public surfaces it needs.
 - `https://themultiple.net/collage/privacy/`
 - `https://themultiple.net/steward/`
 - `https://themultiple.net/ficta/`
+- `https://themultiple.net/blog/` (public, but intentionally unlinked from the project index)
 
-The site is hand-written HTML and CSS. It has no JavaScript, analytics,
-cookies, package manager, or build step, and it makes no request to any
-third-party host. GitHub Pages publishes the committed files from `main`
-without transformation.
+The project pages are hand-written HTML and CSS; the blog is generated from
+Markdown by Jekyll during deployment. The published site has no JavaScript,
+analytics, cookies, or third-party request. GitHub Pages serves the allowlisted
+artifact assembled by the Actions workflow on `main`.
 
 ## The design system
 
@@ -88,16 +89,36 @@ lives in `favicon.svg` and in the impression footer. It is drawn as SVG paths
 rather than set as text, because the shipped fonts are latin subset and carry
 no Greek.
 
+## Blog publishing
+
+Blog posts are Markdown files under `blog-src/_posts/`. Pages CMS reads
+`.pages.yml` and presents a mobile-friendly form for the title, date, kind,
+tags, body, and images. Saving there commits directly to `main`; that push runs
+the same Pages workflow as any other site change.
+
+Jekyll is a build-time dependency only. It renders the isolated `blog-src/`
+tree into `/blog/`, including the index, dated post URLs, and Atom feed. The
+normal manifest assembly then admits only that generated directory. Layouts,
+Markdown source, `.pages.yml`, and Ruby dependency files never enter the Pages
+artifact.
+
+The blog is deliberately absent from the front page and project navigation for
+now. `scripts/check-site.sh` holds that boundary until the blog's visual and
+browsing treatment is ready.
+
 ## Local preview
 
-From the repository root:
+Install Ruby and Bundler, then from the repository root:
 
 ```sh
-ruby -run -e httpd . -p 8000
+bundle install
+bash scripts/build-site.sh _site
+ruby -run -e httpd _site -p 8000
 ```
 
-Then open `http://localhost:8000`. Serve from the root, not from a
-subdirectory — stylesheet, font, and page links are all absolute.
+Then open `http://localhost:8000`. Serve `_site`, not the repository root — the
+blog exists only after Jekyll has rendered it, and stylesheet, font, and page
+links are all absolute.
 
 Run the structural checks with:
 
@@ -105,7 +126,7 @@ Run the structural checks with:
 bash scripts/check-site.sh
 ```
 
-The script requires [ripgrep](https://github.com/BurntSushi/ripgrep) and uses
+The structural script requires [ripgrep](https://github.com/BurntSushi/ripgrep) and uses
 it in place of the platform `grep`, whose BSD and GNU builds diverge silently
 on some patterns — a check that quietly matches nothing looks exactly like a
 check that passes.

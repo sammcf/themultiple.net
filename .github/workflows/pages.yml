@@ -27,17 +27,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
       - name: Ensure ripgrep
         run: command -v rg || { sudo apt-get update && sudo apt-get install -y ripgrep; }
 
-      - name: Run static checks
-        run: bash scripts/check-site.sh
-
-      - name: Assemble the served site
-        run: bash scripts/assemble-site.sh _site
+      - name: Build and validate the served site
+        run: bash scripts/build-site.sh _site
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
@@ -50,4 +53,4 @@ jobs:
     steps:
       - name: Deploy to Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

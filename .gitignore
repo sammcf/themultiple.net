@@ -3,3 +3,5 @@
 # The assembled site, built by scripts/assemble-site.sh. Never committed —
 # what gets served is decided by that script's manifest, not by what is here.
 _site/
+_blog-build/
+.jekyll-cache/

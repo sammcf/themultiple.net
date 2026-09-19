@@ -1,0 +1,22 @@
+---
+layout: default
+---
+<main id="content">
+  <section class="band">
+    <div class="rail"><b>Blog</b><span>{{ page.date | date: "%Y · %m · %d" }}</span></div>
+    <div class="field">
+      {% if page.kind %}<p class="tag">{{ page.kind }}</p>{% endif %}
+      <h1>{{ page.title | escape }}</h1>
+      {% if page.tags and page.tags != empty %}<p class="small">{{ page.tags | join: " · " }}</p>{% endif %}
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="rail"><b>Post</b><span>{{ page.date | date: "%-d %B %Y" }}</span></div>
+    <div class="field">
+      <article class="prose">
+        {{ content }}
+      </article>
+    </div>
+  </section>
+</main>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A practical guide to creating projects, editing layers, adding text, and exporting PNGs with Collage.">
+  <meta name="description" content="A practical guide to creating projects, editing and cutting out layers, adding text, and exporting PNGs with Collage.">
   <link rel="canonical" href="https://themultiple.net/collage/guide/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/fonts/bricolage-grotesque-variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -41,13 +41,14 @@
     </section>
 
     <section class="band">
-      <div class="rail"><b>Sections</b><span>Eight</span></div>
+      <div class="rail"><b>Sections</b><span>Nine</span></div>
       <div class="field">
         <nav class="guide-index" aria-label="Guide sections">
           <a href="#quick-start">Quick start</a>
           <a href="#projects">Projects and saving</a>
           <a href="#modes">Canvas and Layer modes</a>
           <a href="#image-layers">Image layers</a>
+          <a href="#scissors">Scissors</a>
           <a href="#crop">Crop</a>
           <a href="#text">Text</a>
           <a href="#timeline">Timeline</a>
@@ -126,6 +127,16 @@
           </ol>
           <p>The selected-layer toolbar also provides horizontal and vertical flip, opacity, crop, and delete controls. Open <strong>Layers</strong> to select, reorder, or edit layers in a list.</p>
 
+          <h2 id="scissors">Cut out part of an image layer</h2>
+          <ol>
+            <li>Select an image layer and tap <strong>Scissors</strong>.</li>
+            <li>Tap a region to select a connected area of similar colour, then adjust <strong>Tolerance</strong> until the selection follows the edge you want.</li>
+            <li>Drag the boundary handles when the automatic edge needs a local correction. Use <strong>Invert</strong> if you selected the part you want to keep rather than remove.</li>
+            <li>Tap <strong>Accept Cut</strong>. Repeat to remove more regions, or use <strong>Undo Cut</strong> to take back the latest one.</li>
+            <li>Tap <strong>Commit Mask</strong> to add the whole session as one timeline step. <strong>Cancel</strong> restores the previous mask; <strong>Clear All Cuts</strong> removes it.</li>
+          </ol>
+          <p>Scissors works entirely on device. The mask stays editable and follows the layer through crop, transform, flip, opacity, save, reopen, timeline navigation, and export.</p>
+
           <h2 id="crop">Crop an image layer</h2>
           <ol>
             <li>Select an image layer and tap <strong>Crop</strong>.</li>
@@ -137,11 +148,12 @@
 
           <h2 id="text">Add and style text</h2>
           <ol>
-            <li>Tap <strong>Text</strong> in the bottom toolbar and enter your text.</li>
+            <li>Tap <strong>Text</strong> in the bottom toolbar, enter your text, and optionally apply Sentence Case, ALL CAPS, or Ermahgerd alternating case.</li>
             <li>Move, scale, and rotate the text layer like an image layer.</li>
             <li>Open the style editor with <strong>Edit</strong>, by double-tapping the text on canvas, or with the pencil action in <strong>Layers</strong>.</li>
-            <li>Choose the font, size, fill colour, and optional outline colour and width, then apply the changes.</li>
+            <li>Choose a text transformation, font, size, fill colour, and optional outline colour and width, then apply the changes.</li>
           </ol>
+          <p>Text transformations preserve what you typed, so you can change the transformation or return to <strong>None</strong> later.</p>
 
           <h2 id="timeline">Go back and forward with the timeline</h2>
           <p>Each committed edit appears as a node in the strip above the bottom toolbar.</p>
@@ -165,7 +177,7 @@
           <p>Visit <a href="/collage/support/">Collage Support</a> for troubleshooting and information to include in a useful bug report.</p>
         </article>
 
-        <p class="updated">Last updated 8 August 2026</p>
+        <p class="updated">Last updated 20 September 2026</p>
       </div>
     </section>
   </main>

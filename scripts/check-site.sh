@@ -20,6 +20,9 @@ fail() { echo "ERROR: $1" >&2; exit 1; }
 
 required_files=(
   CNAME
+  .pages.yml
+  Gemfile
+  Gemfile.lock
   index.html
   404.html
   styles.css
@@ -36,6 +39,11 @@ required_files=(
   collage/privacy/index.html
   steward/index.html
   ficta/index.html
+  blog-src/_config.yml
+  blog-src/_layouts/default.html
+  blog-src/_layouts/post.html
+  blog-src/blog/index.html
+  scripts/build-site.sh
 )
 
 for file in "${required_files[@]}"; do
@@ -58,7 +66,9 @@ while IFS= read -r file; do
 # result and mis-see _site/404.html as a page that has lost its canonical URL.
 done < <(find . -name '*.html' -type f \
            -not -path './.git/*' \
+           -not -path './blog-src/*' \
            -not -path './docs/*' \
+           -not -path './_blog-build/*' \
            -not -path './_site/*' | sort)
 
 for file in "${pages[@]}"; do
@@ -70,6 +80,20 @@ for file in "${pages[@]}"; do
   rg -qF '/favicon.svg' "$file"          || fail "$file does not load the favicon"
   rg -qF 'skip-link' "$file"             || fail "$file has no skip link"
 done
+
+# --------------------------------------------------------------- blog source
+
+rg -qF 'path: blog-src/_posts' .pages.yml || fail "Pages CMS does not target the Jekyll posts"
+rg -qF 'input: blog-src/blog/media' .pages.yml || fail "Pages CMS media is outside the blog source"
+rg -qF 'output: /blog/media' .pages.yml || fail "Pages CMS media has the wrong public path"
+rg -qF 'permalink: /blog/' blog-src/_config.yml || fail "blog permalinks are not under /blog/"
+rg -qF 'path: blog/feed.xml' blog-src/_config.yml || fail "blog feed is not under /blog/"
+
+# The blog is intentionally public but undiscoverable from the project index
+# until its visual system is ready.
+if rg -nF 'href="/blog/' index.html; then
+  fail "the front page must not link to the blog yet"
+fi
 
 # Every page except 404 is canonical and belongs in the sitemap.
 for file in "${pages[@]}"; do

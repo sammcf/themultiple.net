@@ -1,0 +1,26 @@
+title: the Multiple
+description: Notes on music, movies, books, and returning to them.
+url: https://themultiple.net
+baseurl: ""
+timezone: Australia/Hobart
+lang: en
+author:
+  name: Sam McFarlane
+  email: sam@themultiple.net
+
+permalink: /blog/:year/:month/:day/:slug/
+markdown: kramdown
+strict_front_matter: true
+
+plugins:
+  - jekyll-feed
+
+feed:
+  path: blog/feed.xml
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
